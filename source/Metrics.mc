@@ -41,6 +41,11 @@ module Metrics {
         return null;
     }
 
+    function charging() as Boolean {
+        var st = System.getSystemStats();
+        return (st has :charging) && st.charging;
+    }
+
     function get(id as Number) as Array {
         var info = ActivityMonitor.getInfo();
         if (id == 1) {
@@ -81,45 +86,31 @@ module Metrics {
         return [0.0, "", ""];
     }
 
+    // Arc metric that backs each widget (for its progress ring); 0 = no ring progress.
+    const WIDGET_SOURCE = [0, 0, 1, 2, 3, 4, 6, 7, 0, 9];
+    const WIDGET_LABEL = ["", "TEMP", "BATT", "BPM", "STEPS", "KCAL", "BODY", "FLOORS", "ALERTS", "STRESS"];
+
+    // Returns [value text, label text, ring fraction 0..1 or -1 for a plain ring].
     function widget(id as Number) as Array {
+        if (id <= 0 || id >= WIDGET_SOURCE.size()) { return ["", "", -1.0]; }
         if (id == 1) {
             var t = "--";
             if (Toybox has :Weather) {
                 var c = Weather.getCurrentConditions();
                 if (c != null && c.temperature != null) {
-                    var deg = c.temperature;
+                    var deg = c.temperature.toFloat();
                     if (System.getDeviceSettings().temperatureUnits == System.UNIT_STATUTE) {
                         deg = deg * 9.0 / 5.0 + 32.0;
                     }
                     t = deg.toNumber().toString() + "°";
                 }
             }
-            return [t, "TEMP"];
-        } else if (id == 2) {
-            var m = get(1);
-            return [m[1], "BATT"];
-        } else if (id == 3) {
-            var m = get(2);
-            return [m[1], "BPM"];
-        } else if (id == 4) {
-            var m = get(3);
-            return [m[1], "STEPS"];
-        } else if (id == 5) {
-            var m = get(4);
-            return [m[1], "KCAL"];
-        } else if (id == 6) {
-            var m = get(6);
-            return [m[1], "BODY"];
-        } else if (id == 7) {
-            var m = get(7);
-            return [m[1], "FLOORS"];
+            return [t, WIDGET_LABEL[id], -1.0];
         } else if (id == 8) {
             var n = System.getDeviceSettings().notificationCount;
-            return [(n != null ? n : 0).toString(), "ALERTS"];
-        } else if (id == 9) {
-            var m = get(9);
-            return [m[1], "STRESS"];
+            return [(n != null ? n : 0).toString(), WIDGET_LABEL[id], -1.0];
         }
-        return ["", ""];
+        var m = get(WIDGET_SOURCE[id] as Number);
+        return [m[1], WIDGET_LABEL[id], m[0]];
     }
 }

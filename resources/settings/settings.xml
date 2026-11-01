@@ -1,270 +1,346 @@
 <settings>
 <setting propertyKey="@Properties.TopField" title="@Strings.TopField"><settingConfig type="list">
-<listEntry value="0">@Strings.Arc0</listEntry>
-<listEntry value="1">@Strings.Arc1</listEntry>
-<listEntry value="2">@Strings.Arc2</listEntry>
-<listEntry value="3">@Strings.Arc3</listEntry>
-<listEntry value="4">@Strings.Arc4</listEntry>
-<listEntry value="5">@Strings.Arc5</listEntry>
-<listEntry value="6">@Strings.Arc6</listEntry>
-<listEntry value="7">@Strings.Arc7</listEntry>
-<listEntry value="8">@Strings.Arc8</listEntry>
-<listEntry value="9">@Strings.Arc9</listEntry>
+<listEntry value="0">@Strings.Opt0</listEntry>
+<listEntry value="1">@Strings.Opt1</listEntry>
+<listEntry value="2">@Strings.Opt2</listEntry>
+<listEntry value="3">@Strings.Opt3</listEntry>
+<listEntry value="4">@Strings.Opt4</listEntry>
+<listEntry value="5">@Strings.Opt5</listEntry>
+<listEntry value="6">@Strings.Opt6</listEntry>
+<listEntry value="7">@Strings.Opt7</listEntry>
+<listEntry value="8">@Strings.Opt8</listEntry>
+<listEntry value="9">@Strings.Opt9</listEntry>
 </settingConfig></setting>
 <setting propertyKey="@Properties.TopColor" title="@Strings.TopColor"><settingConfig type="list">
-<listEntry value="0">@Strings.Col0</listEntry>
-<listEntry value="1">@Strings.Col1</listEntry>
-<listEntry value="2">@Strings.Col2</listEntry>
-<listEntry value="3">@Strings.Col3</listEntry>
-<listEntry value="4">@Strings.Col4</listEntry>
-<listEntry value="5">@Strings.Col5</listEntry>
-<listEntry value="6">@Strings.Col6</listEntry>
-<listEntry value="7">@Strings.Col7</listEntry>
-<listEntry value="8">@Strings.Col8</listEntry>
-<listEntry value="9">@Strings.Col9</listEntry>
+<listEntry value="0">@Strings.Opt10</listEntry>
+<listEntry value="1">@Strings.Opt11</listEntry>
+<listEntry value="2">@Strings.Opt12</listEntry>
+<listEntry value="3">@Strings.Opt13</listEntry>
+<listEntry value="4">@Strings.Opt14</listEntry>
+<listEntry value="5">@Strings.Opt15</listEntry>
+<listEntry value="6">@Strings.Opt16</listEntry>
+<listEntry value="7">@Strings.Opt17</listEntry>
+<listEntry value="8">@Strings.Opt18</listEntry>
+<listEntry value="9">@Strings.Opt19</listEntry>
+<listEntry value="10">@Strings.Opt20</listEntry>
+<listEntry value="11">@Strings.Opt21</listEntry>
+</settingConfig></setting>
+<setting propertyKey="@Properties.TopStyle" title="@Strings.TopStyle"><settingConfig type="list">
+<listEntry value="0">@Strings.Opt22</listEntry>
+<listEntry value="1">@Strings.Opt23</listEntry>
+<listEntry value="2">@Strings.Opt24</listEntry>
+</settingConfig></setting>
+<setting propertyKey="@Properties.TopTextSize" title="@Strings.TopTextSize"><settingConfig type="list">
+<listEntry value="0">@Strings.Opt25</listEntry>
+<listEntry value="1">@Strings.Opt26</listEntry>
+<listEntry value="2">@Strings.Opt27</listEntry>
 </settingConfig></setting>
 <setting propertyKey="@Properties.RightField" title="@Strings.RightField"><settingConfig type="list">
-<listEntry value="0">@Strings.Arc0</listEntry>
-<listEntry value="1">@Strings.Arc1</listEntry>
-<listEntry value="2">@Strings.Arc2</listEntry>
-<listEntry value="3">@Strings.Arc3</listEntry>
-<listEntry value="4">@Strings.Arc4</listEntry>
-<listEntry value="5">@Strings.Arc5</listEntry>
-<listEntry value="6">@Strings.Arc6</listEntry>
-<listEntry value="7">@Strings.Arc7</listEntry>
-<listEntry value="8">@Strings.Arc8</listEntry>
-<listEntry value="9">@Strings.Arc9</listEntry>
+<listEntry value="0">@Strings.Opt0</listEntry>
+<listEntry value="1">@Strings.Opt1</listEntry>
+<listEntry value="2">@Strings.Opt2</listEntry>
+<listEntry value="3">@Strings.Opt3</listEntry>
+<listEntry value="4">@Strings.Opt4</listEntry>
+<listEntry value="5">@Strings.Opt5</listEntry>
+<listEntry value="6">@Strings.Opt6</listEntry>
+<listEntry value="7">@Strings.Opt7</listEntry>
+<listEntry value="8">@Strings.Opt8</listEntry>
+<listEntry value="9">@Strings.Opt9</listEntry>
 </settingConfig></setting>
 <setting propertyKey="@Properties.RightColor" title="@Strings.RightColor"><settingConfig type="list">
-<listEntry value="0">@Strings.Col0</listEntry>
-<listEntry value="1">@Strings.Col1</listEntry>
-<listEntry value="2">@Strings.Col2</listEntry>
-<listEntry value="3">@Strings.Col3</listEntry>
-<listEntry value="4">@Strings.Col4</listEntry>
-<listEntry value="5">@Strings.Col5</listEntry>
-<listEntry value="6">@Strings.Col6</listEntry>
-<listEntry value="7">@Strings.Col7</listEntry>
-<listEntry value="8">@Strings.Col8</listEntry>
-<listEntry value="9">@Strings.Col9</listEntry>
+<listEntry value="0">@Strings.Opt10</listEntry>
+<listEntry value="1">@Strings.Opt11</listEntry>
+<listEntry value="2">@Strings.Opt12</listEntry>
+<listEntry value="3">@Strings.Opt13</listEntry>
+<listEntry value="4">@Strings.Opt14</listEntry>
+<listEntry value="5">@Strings.Opt15</listEntry>
+<listEntry value="6">@Strings.Opt16</listEntry>
+<listEntry value="7">@Strings.Opt17</listEntry>
+<listEntry value="8">@Strings.Opt18</listEntry>
+<listEntry value="9">@Strings.Opt19</listEntry>
+<listEntry value="10">@Strings.Opt20</listEntry>
+<listEntry value="11">@Strings.Opt21</listEntry>
 </settingConfig></setting>
 <setting propertyKey="@Properties.Left1Field" title="@Strings.Left1Field"><settingConfig type="list">
-<listEntry value="0">@Strings.Arc0</listEntry>
-<listEntry value="1">@Strings.Arc1</listEntry>
-<listEntry value="2">@Strings.Arc2</listEntry>
-<listEntry value="3">@Strings.Arc3</listEntry>
-<listEntry value="4">@Strings.Arc4</listEntry>
-<listEntry value="5">@Strings.Arc5</listEntry>
-<listEntry value="6">@Strings.Arc6</listEntry>
-<listEntry value="7">@Strings.Arc7</listEntry>
-<listEntry value="8">@Strings.Arc8</listEntry>
-<listEntry value="9">@Strings.Arc9</listEntry>
+<listEntry value="0">@Strings.Opt0</listEntry>
+<listEntry value="1">@Strings.Opt1</listEntry>
+<listEntry value="2">@Strings.Opt2</listEntry>
+<listEntry value="3">@Strings.Opt3</listEntry>
+<listEntry value="4">@Strings.Opt4</listEntry>
+<listEntry value="5">@Strings.Opt5</listEntry>
+<listEntry value="6">@Strings.Opt6</listEntry>
+<listEntry value="7">@Strings.Opt7</listEntry>
+<listEntry value="8">@Strings.Opt8</listEntry>
+<listEntry value="9">@Strings.Opt9</listEntry>
 </settingConfig></setting>
 <setting propertyKey="@Properties.Left1Color" title="@Strings.Left1Color"><settingConfig type="list">
-<listEntry value="0">@Strings.Col0</listEntry>
-<listEntry value="1">@Strings.Col1</listEntry>
-<listEntry value="2">@Strings.Col2</listEntry>
-<listEntry value="3">@Strings.Col3</listEntry>
-<listEntry value="4">@Strings.Col4</listEntry>
-<listEntry value="5">@Strings.Col5</listEntry>
-<listEntry value="6">@Strings.Col6</listEntry>
-<listEntry value="7">@Strings.Col7</listEntry>
-<listEntry value="8">@Strings.Col8</listEntry>
-<listEntry value="9">@Strings.Col9</listEntry>
+<listEntry value="0">@Strings.Opt10</listEntry>
+<listEntry value="1">@Strings.Opt11</listEntry>
+<listEntry value="2">@Strings.Opt12</listEntry>
+<listEntry value="3">@Strings.Opt13</listEntry>
+<listEntry value="4">@Strings.Opt14</listEntry>
+<listEntry value="5">@Strings.Opt15</listEntry>
+<listEntry value="6">@Strings.Opt16</listEntry>
+<listEntry value="7">@Strings.Opt17</listEntry>
+<listEntry value="8">@Strings.Opt18</listEntry>
+<listEntry value="9">@Strings.Opt19</listEntry>
+<listEntry value="10">@Strings.Opt20</listEntry>
+<listEntry value="11">@Strings.Opt21</listEntry>
 </settingConfig></setting>
 <setting propertyKey="@Properties.Left2Field" title="@Strings.Left2Field"><settingConfig type="list">
-<listEntry value="0">@Strings.Arc0</listEntry>
-<listEntry value="1">@Strings.Arc1</listEntry>
-<listEntry value="2">@Strings.Arc2</listEntry>
-<listEntry value="3">@Strings.Arc3</listEntry>
-<listEntry value="4">@Strings.Arc4</listEntry>
-<listEntry value="5">@Strings.Arc5</listEntry>
-<listEntry value="6">@Strings.Arc6</listEntry>
-<listEntry value="7">@Strings.Arc7</listEntry>
-<listEntry value="8">@Strings.Arc8</listEntry>
-<listEntry value="9">@Strings.Arc9</listEntry>
+<listEntry value="0">@Strings.Opt0</listEntry>
+<listEntry value="1">@Strings.Opt1</listEntry>
+<listEntry value="2">@Strings.Opt2</listEntry>
+<listEntry value="3">@Strings.Opt3</listEntry>
+<listEntry value="4">@Strings.Opt4</listEntry>
+<listEntry value="5">@Strings.Opt5</listEntry>
+<listEntry value="6">@Strings.Opt6</listEntry>
+<listEntry value="7">@Strings.Opt7</listEntry>
+<listEntry value="8">@Strings.Opt8</listEntry>
+<listEntry value="9">@Strings.Opt9</listEntry>
 </settingConfig></setting>
 <setting propertyKey="@Properties.Left2Color" title="@Strings.Left2Color"><settingConfig type="list">
-<listEntry value="0">@Strings.Col0</listEntry>
-<listEntry value="1">@Strings.Col1</listEntry>
-<listEntry value="2">@Strings.Col2</listEntry>
-<listEntry value="3">@Strings.Col3</listEntry>
-<listEntry value="4">@Strings.Col4</listEntry>
-<listEntry value="5">@Strings.Col5</listEntry>
-<listEntry value="6">@Strings.Col6</listEntry>
-<listEntry value="7">@Strings.Col7</listEntry>
-<listEntry value="8">@Strings.Col8</listEntry>
-<listEntry value="9">@Strings.Col9</listEntry>
+<listEntry value="0">@Strings.Opt10</listEntry>
+<listEntry value="1">@Strings.Opt11</listEntry>
+<listEntry value="2">@Strings.Opt12</listEntry>
+<listEntry value="3">@Strings.Opt13</listEntry>
+<listEntry value="4">@Strings.Opt14</listEntry>
+<listEntry value="5">@Strings.Opt15</listEntry>
+<listEntry value="6">@Strings.Opt16</listEntry>
+<listEntry value="7">@Strings.Opt17</listEntry>
+<listEntry value="8">@Strings.Opt18</listEntry>
+<listEntry value="9">@Strings.Opt19</listEntry>
+<listEntry value="10">@Strings.Opt20</listEntry>
+<listEntry value="11">@Strings.Opt21</listEntry>
 </settingConfig></setting>
 <setting propertyKey="@Properties.Left3Field" title="@Strings.Left3Field"><settingConfig type="list">
-<listEntry value="0">@Strings.Arc0</listEntry>
-<listEntry value="1">@Strings.Arc1</listEntry>
-<listEntry value="2">@Strings.Arc2</listEntry>
-<listEntry value="3">@Strings.Arc3</listEntry>
-<listEntry value="4">@Strings.Arc4</listEntry>
-<listEntry value="5">@Strings.Arc5</listEntry>
-<listEntry value="6">@Strings.Arc6</listEntry>
-<listEntry value="7">@Strings.Arc7</listEntry>
-<listEntry value="8">@Strings.Arc8</listEntry>
-<listEntry value="9">@Strings.Arc9</listEntry>
+<listEntry value="0">@Strings.Opt0</listEntry>
+<listEntry value="1">@Strings.Opt1</listEntry>
+<listEntry value="2">@Strings.Opt2</listEntry>
+<listEntry value="3">@Strings.Opt3</listEntry>
+<listEntry value="4">@Strings.Opt4</listEntry>
+<listEntry value="5">@Strings.Opt5</listEntry>
+<listEntry value="6">@Strings.Opt6</listEntry>
+<listEntry value="7">@Strings.Opt7</listEntry>
+<listEntry value="8">@Strings.Opt8</listEntry>
+<listEntry value="9">@Strings.Opt9</listEntry>
 </settingConfig></setting>
 <setting propertyKey="@Properties.Left3Color" title="@Strings.Left3Color"><settingConfig type="list">
-<listEntry value="0">@Strings.Col0</listEntry>
-<listEntry value="1">@Strings.Col1</listEntry>
-<listEntry value="2">@Strings.Col2</listEntry>
-<listEntry value="3">@Strings.Col3</listEntry>
-<listEntry value="4">@Strings.Col4</listEntry>
-<listEntry value="5">@Strings.Col5</listEntry>
-<listEntry value="6">@Strings.Col6</listEntry>
-<listEntry value="7">@Strings.Col7</listEntry>
-<listEntry value="8">@Strings.Col8</listEntry>
-<listEntry value="9">@Strings.Col9</listEntry>
+<listEntry value="0">@Strings.Opt10</listEntry>
+<listEntry value="1">@Strings.Opt11</listEntry>
+<listEntry value="2">@Strings.Opt12</listEntry>
+<listEntry value="3">@Strings.Opt13</listEntry>
+<listEntry value="4">@Strings.Opt14</listEntry>
+<listEntry value="5">@Strings.Opt15</listEntry>
+<listEntry value="6">@Strings.Opt16</listEntry>
+<listEntry value="7">@Strings.Opt17</listEntry>
+<listEntry value="8">@Strings.Opt18</listEntry>
+<listEntry value="9">@Strings.Opt19</listEntry>
+<listEntry value="10">@Strings.Opt20</listEntry>
+<listEntry value="11">@Strings.Opt21</listEntry>
 </settingConfig></setting>
 <setting propertyKey="@Properties.BottomField" title="@Strings.BottomField"><settingConfig type="list">
-<listEntry value="0">@Strings.Arc0</listEntry>
-<listEntry value="1">@Strings.Arc1</listEntry>
-<listEntry value="2">@Strings.Arc2</listEntry>
-<listEntry value="3">@Strings.Arc3</listEntry>
-<listEntry value="4">@Strings.Arc4</listEntry>
-<listEntry value="5">@Strings.Arc5</listEntry>
-<listEntry value="6">@Strings.Arc6</listEntry>
-<listEntry value="7">@Strings.Arc7</listEntry>
-<listEntry value="8">@Strings.Arc8</listEntry>
-<listEntry value="9">@Strings.Arc9</listEntry>
+<listEntry value="0">@Strings.Opt0</listEntry>
+<listEntry value="1">@Strings.Opt1</listEntry>
+<listEntry value="2">@Strings.Opt2</listEntry>
+<listEntry value="3">@Strings.Opt3</listEntry>
+<listEntry value="4">@Strings.Opt4</listEntry>
+<listEntry value="5">@Strings.Opt5</listEntry>
+<listEntry value="6">@Strings.Opt6</listEntry>
+<listEntry value="7">@Strings.Opt7</listEntry>
+<listEntry value="8">@Strings.Opt8</listEntry>
+<listEntry value="9">@Strings.Opt9</listEntry>
 </settingConfig></setting>
 <setting propertyKey="@Properties.BottomColor" title="@Strings.BottomColor"><settingConfig type="list">
-<listEntry value="0">@Strings.Col0</listEntry>
-<listEntry value="1">@Strings.Col1</listEntry>
-<listEntry value="2">@Strings.Col2</listEntry>
-<listEntry value="3">@Strings.Col3</listEntry>
-<listEntry value="4">@Strings.Col4</listEntry>
-<listEntry value="5">@Strings.Col5</listEntry>
-<listEntry value="6">@Strings.Col6</listEntry>
-<listEntry value="7">@Strings.Col7</listEntry>
-<listEntry value="8">@Strings.Col8</listEntry>
-<listEntry value="9">@Strings.Col9</listEntry>
+<listEntry value="0">@Strings.Opt10</listEntry>
+<listEntry value="1">@Strings.Opt11</listEntry>
+<listEntry value="2">@Strings.Opt12</listEntry>
+<listEntry value="3">@Strings.Opt13</listEntry>
+<listEntry value="4">@Strings.Opt14</listEntry>
+<listEntry value="5">@Strings.Opt15</listEntry>
+<listEntry value="6">@Strings.Opt16</listEntry>
+<listEntry value="7">@Strings.Opt17</listEntry>
+<listEntry value="8">@Strings.Opt18</listEntry>
+<listEntry value="9">@Strings.Opt19</listEntry>
+<listEntry value="10">@Strings.Opt20</listEntry>
+<listEntry value="11">@Strings.Opt21</listEntry>
 </settingConfig></setting>
 <setting propertyKey="@Properties.W1Field" title="@Strings.W1Field"><settingConfig type="list">
-<listEntry value="0">@Strings.Wid0</listEntry>
-<listEntry value="1">@Strings.Wid1</listEntry>
-<listEntry value="2">@Strings.Wid2</listEntry>
-<listEntry value="3">@Strings.Wid3</listEntry>
-<listEntry value="4">@Strings.Wid4</listEntry>
-<listEntry value="5">@Strings.Wid5</listEntry>
-<listEntry value="6">@Strings.Wid6</listEntry>
-<listEntry value="7">@Strings.Wid7</listEntry>
-<listEntry value="8">@Strings.Wid8</listEntry>
-<listEntry value="9">@Strings.Wid9</listEntry>
+<listEntry value="0">@Strings.Opt0</listEntry>
+<listEntry value="1">@Strings.Opt28</listEntry>
+<listEntry value="2">@Strings.Opt1</listEntry>
+<listEntry value="3">@Strings.Opt2</listEntry>
+<listEntry value="4">@Strings.Opt3</listEntry>
+<listEntry value="5">@Strings.Opt4</listEntry>
+<listEntry value="6">@Strings.Opt6</listEntry>
+<listEntry value="7">@Strings.Opt7</listEntry>
+<listEntry value="8">@Strings.Opt29</listEntry>
+<listEntry value="9">@Strings.Opt9</listEntry>
 </settingConfig></setting>
 <setting propertyKey="@Properties.W1Color" title="@Strings.W1Color"><settingConfig type="list">
-<listEntry value="0">@Strings.Col0</listEntry>
-<listEntry value="1">@Strings.Col1</listEntry>
-<listEntry value="2">@Strings.Col2</listEntry>
-<listEntry value="3">@Strings.Col3</listEntry>
-<listEntry value="4">@Strings.Col4</listEntry>
-<listEntry value="5">@Strings.Col5</listEntry>
-<listEntry value="6">@Strings.Col6</listEntry>
-<listEntry value="7">@Strings.Col7</listEntry>
-<listEntry value="8">@Strings.Col8</listEntry>
-<listEntry value="9">@Strings.Col9</listEntry>
+<listEntry value="0">@Strings.Opt10</listEntry>
+<listEntry value="1">@Strings.Opt11</listEntry>
+<listEntry value="2">@Strings.Opt12</listEntry>
+<listEntry value="3">@Strings.Opt13</listEntry>
+<listEntry value="4">@Strings.Opt14</listEntry>
+<listEntry value="5">@Strings.Opt15</listEntry>
+<listEntry value="6">@Strings.Opt16</listEntry>
+<listEntry value="7">@Strings.Opt17</listEntry>
+<listEntry value="8">@Strings.Opt18</listEntry>
+<listEntry value="9">@Strings.Opt19</listEntry>
+<listEntry value="10">@Strings.Opt20</listEntry>
+<listEntry value="11">@Strings.Opt21</listEntry>
 </settingConfig></setting>
 <setting propertyKey="@Properties.W2Field" title="@Strings.W2Field"><settingConfig type="list">
-<listEntry value="0">@Strings.Wid0</listEntry>
-<listEntry value="1">@Strings.Wid1</listEntry>
-<listEntry value="2">@Strings.Wid2</listEntry>
-<listEntry value="3">@Strings.Wid3</listEntry>
-<listEntry value="4">@Strings.Wid4</listEntry>
-<listEntry value="5">@Strings.Wid5</listEntry>
-<listEntry value="6">@Strings.Wid6</listEntry>
-<listEntry value="7">@Strings.Wid7</listEntry>
-<listEntry value="8">@Strings.Wid8</listEntry>
-<listEntry value="9">@Strings.Wid9</listEntry>
+<listEntry value="0">@Strings.Opt0</listEntry>
+<listEntry value="1">@Strings.Opt28</listEntry>
+<listEntry value="2">@Strings.Opt1</listEntry>
+<listEntry value="3">@Strings.Opt2</listEntry>
+<listEntry value="4">@Strings.Opt3</listEntry>
+<listEntry value="5">@Strings.Opt4</listEntry>
+<listEntry value="6">@Strings.Opt6</listEntry>
+<listEntry value="7">@Strings.Opt7</listEntry>
+<listEntry value="8">@Strings.Opt29</listEntry>
+<listEntry value="9">@Strings.Opt9</listEntry>
 </settingConfig></setting>
 <setting propertyKey="@Properties.W2Color" title="@Strings.W2Color"><settingConfig type="list">
-<listEntry value="0">@Strings.Col0</listEntry>
-<listEntry value="1">@Strings.Col1</listEntry>
-<listEntry value="2">@Strings.Col2</listEntry>
-<listEntry value="3">@Strings.Col3</listEntry>
-<listEntry value="4">@Strings.Col4</listEntry>
-<listEntry value="5">@Strings.Col5</listEntry>
-<listEntry value="6">@Strings.Col6</listEntry>
-<listEntry value="7">@Strings.Col7</listEntry>
-<listEntry value="8">@Strings.Col8</listEntry>
-<listEntry value="9">@Strings.Col9</listEntry>
+<listEntry value="0">@Strings.Opt10</listEntry>
+<listEntry value="1">@Strings.Opt11</listEntry>
+<listEntry value="2">@Strings.Opt12</listEntry>
+<listEntry value="3">@Strings.Opt13</listEntry>
+<listEntry value="4">@Strings.Opt14</listEntry>
+<listEntry value="5">@Strings.Opt15</listEntry>
+<listEntry value="6">@Strings.Opt16</listEntry>
+<listEntry value="7">@Strings.Opt17</listEntry>
+<listEntry value="8">@Strings.Opt18</listEntry>
+<listEntry value="9">@Strings.Opt19</listEntry>
+<listEntry value="10">@Strings.Opt20</listEntry>
+<listEntry value="11">@Strings.Opt21</listEntry>
 </settingConfig></setting>
 <setting propertyKey="@Properties.W3Field" title="@Strings.W3Field"><settingConfig type="list">
-<listEntry value="0">@Strings.Wid0</listEntry>
-<listEntry value="1">@Strings.Wid1</listEntry>
-<listEntry value="2">@Strings.Wid2</listEntry>
-<listEntry value="3">@Strings.Wid3</listEntry>
-<listEntry value="4">@Strings.Wid4</listEntry>
-<listEntry value="5">@Strings.Wid5</listEntry>
-<listEntry value="6">@Strings.Wid6</listEntry>
-<listEntry value="7">@Strings.Wid7</listEntry>
-<listEntry value="8">@Strings.Wid8</listEntry>
-<listEntry value="9">@Strings.Wid9</listEntry>
+<listEntry value="0">@Strings.Opt0</listEntry>
+<listEntry value="1">@Strings.Opt28</listEntry>
+<listEntry value="2">@Strings.Opt1</listEntry>
+<listEntry value="3">@Strings.Opt2</listEntry>
+<listEntry value="4">@Strings.Opt3</listEntry>
+<listEntry value="5">@Strings.Opt4</listEntry>
+<listEntry value="6">@Strings.Opt6</listEntry>
+<listEntry value="7">@Strings.Opt7</listEntry>
+<listEntry value="8">@Strings.Opt29</listEntry>
+<listEntry value="9">@Strings.Opt9</listEntry>
 </settingConfig></setting>
 <setting propertyKey="@Properties.W3Color" title="@Strings.W3Color"><settingConfig type="list">
-<listEntry value="0">@Strings.Col0</listEntry>
-<listEntry value="1">@Strings.Col1</listEntry>
-<listEntry value="2">@Strings.Col2</listEntry>
-<listEntry value="3">@Strings.Col3</listEntry>
-<listEntry value="4">@Strings.Col4</listEntry>
-<listEntry value="5">@Strings.Col5</listEntry>
-<listEntry value="6">@Strings.Col6</listEntry>
-<listEntry value="7">@Strings.Col7</listEntry>
-<listEntry value="8">@Strings.Col8</listEntry>
-<listEntry value="9">@Strings.Col9</listEntry>
+<listEntry value="0">@Strings.Opt10</listEntry>
+<listEntry value="1">@Strings.Opt11</listEntry>
+<listEntry value="2">@Strings.Opt12</listEntry>
+<listEntry value="3">@Strings.Opt13</listEntry>
+<listEntry value="4">@Strings.Opt14</listEntry>
+<listEntry value="5">@Strings.Opt15</listEntry>
+<listEntry value="6">@Strings.Opt16</listEntry>
+<listEntry value="7">@Strings.Opt17</listEntry>
+<listEntry value="8">@Strings.Opt18</listEntry>
+<listEntry value="9">@Strings.Opt19</listEntry>
+<listEntry value="10">@Strings.Opt20</listEntry>
+<listEntry value="11">@Strings.Opt21</listEntry>
 </settingConfig></setting>
+<setting propertyKey="@Properties.WidgetRing" title="@Strings.WidgetRing"><settingConfig type="boolean"/></setting>
 <setting propertyKey="@Properties.TimeColor" title="@Strings.TimeColor"><settingConfig type="list">
-<listEntry value="0">@Strings.Col0</listEntry>
-<listEntry value="1">@Strings.Col1</listEntry>
-<listEntry value="2">@Strings.Col2</listEntry>
-<listEntry value="3">@Strings.Col3</listEntry>
-<listEntry value="4">@Strings.Col4</listEntry>
-<listEntry value="5">@Strings.Col5</listEntry>
-<listEntry value="6">@Strings.Col6</listEntry>
-<listEntry value="7">@Strings.Col7</listEntry>
-<listEntry value="8">@Strings.Col8</listEntry>
-<listEntry value="9">@Strings.Col9</listEntry>
+<listEntry value="0">@Strings.Opt10</listEntry>
+<listEntry value="1">@Strings.Opt11</listEntry>
+<listEntry value="2">@Strings.Opt12</listEntry>
+<listEntry value="3">@Strings.Opt13</listEntry>
+<listEntry value="4">@Strings.Opt14</listEntry>
+<listEntry value="5">@Strings.Opt15</listEntry>
+<listEntry value="6">@Strings.Opt16</listEntry>
+<listEntry value="7">@Strings.Opt17</listEntry>
+<listEntry value="8">@Strings.Opt18</listEntry>
+<listEntry value="9">@Strings.Opt19</listEntry>
+<listEntry value="10">@Strings.Opt20</listEntry>
+<listEntry value="11">@Strings.Opt21</listEntry>
+</settingConfig></setting>
+<setting propertyKey="@Properties.TimeSize" title="@Strings.TimeSize"><settingConfig type="list">
+<listEntry value="0">@Strings.Opt30</listEntry>
+<listEntry value="1">@Strings.Opt27</listEntry>
+</settingConfig></setting>
+<setting propertyKey="@Properties.TimeFormat" title="@Strings.TimeFormat"><settingConfig type="list">
+<listEntry value="0">@Strings.Opt31</listEntry>
+<listEntry value="1">@Strings.Opt32</listEntry>
+<listEntry value="2">@Strings.Opt33</listEntry>
 </settingConfig></setting>
 <setting propertyKey="@Properties.DateColor" title="@Strings.DateColor"><settingConfig type="list">
-<listEntry value="0">@Strings.Col0</listEntry>
-<listEntry value="1">@Strings.Col1</listEntry>
-<listEntry value="2">@Strings.Col2</listEntry>
-<listEntry value="3">@Strings.Col3</listEntry>
-<listEntry value="4">@Strings.Col4</listEntry>
-<listEntry value="5">@Strings.Col5</listEntry>
-<listEntry value="6">@Strings.Col6</listEntry>
-<listEntry value="7">@Strings.Col7</listEntry>
-<listEntry value="8">@Strings.Col8</listEntry>
-<listEntry value="9">@Strings.Col9</listEntry>
+<listEntry value="0">@Strings.Opt10</listEntry>
+<listEntry value="1">@Strings.Opt11</listEntry>
+<listEntry value="2">@Strings.Opt12</listEntry>
+<listEntry value="3">@Strings.Opt13</listEntry>
+<listEntry value="4">@Strings.Opt14</listEntry>
+<listEntry value="5">@Strings.Opt15</listEntry>
+<listEntry value="6">@Strings.Opt16</listEntry>
+<listEntry value="7">@Strings.Opt17</listEntry>
+<listEntry value="8">@Strings.Opt18</listEntry>
+<listEntry value="9">@Strings.Opt19</listEntry>
+<listEntry value="10">@Strings.Opt20</listEntry>
+<listEntry value="11">@Strings.Opt21</listEntry>
+</settingConfig></setting>
+<setting propertyKey="@Properties.DateFormat" title="@Strings.DateFormat"><settingConfig type="list">
+<listEntry value="0">@Strings.Opt34</listEntry>
+<listEntry value="1">@Strings.Opt35</listEntry>
+<listEntry value="2">@Strings.Opt36</listEntry>
+</settingConfig></setting>
+<setting propertyKey="@Properties.ShowDate" title="@Strings.ShowDate"><settingConfig type="boolean"/></setting>
+<setting propertyKey="@Properties.LabelSize" title="@Strings.LabelSize"><settingConfig type="list">
+<listEntry value="0">@Strings.Opt25</listEntry>
+<listEntry value="1">@Strings.Opt26</listEntry>
+<listEntry value="2">@Strings.Opt27</listEntry>
+</settingConfig></setting>
+<setting propertyKey="@Properties.ShowUnits" title="@Strings.ShowUnits"><settingConfig type="boolean"/></setting>
+<setting propertyKey="@Properties.ArcWidth" title="@Strings.ArcWidth"><settingConfig type="list">
+<listEntry value="0">@Strings.Opt37</listEntry>
+<listEntry value="1">@Strings.Opt30</listEntry>
+<listEntry value="2">@Strings.Opt38</listEntry>
+</settingConfig></setting>
+<setting propertyKey="@Properties.TickStyle" title="@Strings.TickStyle"><settingConfig type="list">
+<listEntry value="0">@Strings.Opt39</listEntry>
+<listEntry value="1">@Strings.Opt40</listEntry>
+<listEntry value="2">@Strings.Opt0</listEntry>
 </settingConfig></setting>
 <setting propertyKey="@Properties.TickColor" title="@Strings.TickColor"><settingConfig type="list">
-<listEntry value="0">@Strings.Col0</listEntry>
-<listEntry value="1">@Strings.Col1</listEntry>
-<listEntry value="2">@Strings.Col2</listEntry>
-<listEntry value="3">@Strings.Col3</listEntry>
-<listEntry value="4">@Strings.Col4</listEntry>
-<listEntry value="5">@Strings.Col5</listEntry>
-<listEntry value="6">@Strings.Col6</listEntry>
-<listEntry value="7">@Strings.Col7</listEntry>
-<listEntry value="8">@Strings.Col8</listEntry>
-<listEntry value="9">@Strings.Col9</listEntry>
-</settingConfig></setting>
-<setting propertyKey="@Properties.SecColor" title="@Strings.SecColor"><settingConfig type="list">
-<listEntry value="0">@Strings.Col0</listEntry>
-<listEntry value="1">@Strings.Col1</listEntry>
-<listEntry value="2">@Strings.Col2</listEntry>
-<listEntry value="3">@Strings.Col3</listEntry>
-<listEntry value="4">@Strings.Col4</listEntry>
-<listEntry value="5">@Strings.Col5</listEntry>
-<listEntry value="6">@Strings.Col6</listEntry>
-<listEntry value="7">@Strings.Col7</listEntry>
-<listEntry value="8">@Strings.Col8</listEntry>
-<listEntry value="9">@Strings.Col9</listEntry>
+<listEntry value="0">@Strings.Opt10</listEntry>
+<listEntry value="1">@Strings.Opt11</listEntry>
+<listEntry value="2">@Strings.Opt12</listEntry>
+<listEntry value="3">@Strings.Opt13</listEntry>
+<listEntry value="4">@Strings.Opt14</listEntry>
+<listEntry value="5">@Strings.Opt15</listEntry>
+<listEntry value="6">@Strings.Opt16</listEntry>
+<listEntry value="7">@Strings.Opt17</listEntry>
+<listEntry value="8">@Strings.Opt18</listEntry>
+<listEntry value="9">@Strings.Opt19</listEntry>
+<listEntry value="10">@Strings.Opt20</listEntry>
+<listEntry value="11">@Strings.Opt21</listEntry>
 </settingConfig></setting>
 <setting propertyKey="@Properties.ShowSeconds" title="@Strings.ShowSeconds"><settingConfig type="boolean"/></setting>
-<setting propertyKey="@Properties.ShowDate" title="@Strings.ShowDate"><settingConfig type="boolean"/></setting>
+<setting propertyKey="@Properties.SecColor" title="@Strings.SecColor"><settingConfig type="list">
+<listEntry value="0">@Strings.Opt10</listEntry>
+<listEntry value="1">@Strings.Opt11</listEntry>
+<listEntry value="2">@Strings.Opt12</listEntry>
+<listEntry value="3">@Strings.Opt13</listEntry>
+<listEntry value="4">@Strings.Opt14</listEntry>
+<listEntry value="5">@Strings.Opt15</listEntry>
+<listEntry value="6">@Strings.Opt16</listEntry>
+<listEntry value="7">@Strings.Opt17</listEntry>
+<listEntry value="8">@Strings.Opt18</listEntry>
+<listEntry value="9">@Strings.Opt19</listEntry>
+<listEntry value="10">@Strings.Opt20</listEntry>
+<listEntry value="11">@Strings.Opt21</listEntry>
+</settingConfig></setting>
+<setting propertyKey="@Properties.BgColor" title="@Strings.BgColor"><settingConfig type="list">
+<listEntry value="0">@Strings.Opt41</listEntry>
+<listEntry value="1">@Strings.Opt42</listEntry>
+<listEntry value="2">@Strings.Opt43</listEntry>
+<listEntry value="3">@Strings.Opt44</listEntry>
+<listEntry value="4">@Strings.Opt45</listEntry>
+</settingConfig></setting>
+<setting propertyKey="@Properties.CustomColor1" title="@Strings.CustomColor1"><settingConfig type="alphaNumeric" maxLength="7"/></setting>
+<setting propertyKey="@Properties.CustomColor2" title="@Strings.CustomColor2"><settingConfig type="alphaNumeric" maxLength="7"/></setting>
 <setting propertyKey="@Properties.CalorieGoal" title="@Strings.CalorieGoal"><settingConfig type="numeric" min="500" max="10000"/></setting>
 <setting propertyKey="@Properties.DistGoal" title="@Strings.DistGoal"><settingConfig type="numeric" min="1" max="100"/></setting>
 <setting propertyKey="@Properties.HrMax" title="@Strings.HrMax"><settingConfig type="numeric" min="120" max="220"/></setting>
