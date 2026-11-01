@@ -13,6 +13,9 @@ class FaceView extends WatchUi.WatchFace {
     private var _arcFont as VectorFont? = null;    // for drawRadialText, which needs a vector font
     private var _widValFont as VectorFont? = null; // widget value, narrow enough to fit the circle
     private var _widLblFont as VectorFont? = null; // widget label
+    private var _topValFont as VectorFont? = null; // top gauge value
+    private var _topLblFont as VectorFont? = null; // top gauge unit
+    private var _dateFont as VectorFont? = null;
 
     function initialize() {
         WatchFace.initialize();
@@ -30,19 +33,26 @@ class FaceView extends WatchUi.WatchFace {
 
     function onLayout(dc as Dc) as Void {
         if (Graphics has :getVectorFont) {
-            _arcFont = Graphics.getVectorFont({
-                :face => ["RobotoCondensedBold", "RobotoCondensedRegular", "RobotoRegular"],
-                :size => (22 * dc.getWidth() / 454)
-            });
-            _widValFont = Graphics.getVectorFont({
-                :face => ["RobotoCondensedBold", "RobotoCondensedRegular", "RobotoRegular"],
-                :size => (32 * dc.getWidth() / 454)
-            });
-            _widLblFont = Graphics.getVectorFont({
-                :face => ["RobotoCondensedRegular", "RobotoCondensedBold", "RobotoRegular"],
-                :size => (20 * dc.getWidth() / 454)
-            });
+            var w = dc.getWidth();
+            _arcFont = vfont(true, 18, w);
+            _widValFont = vfont(true, 26, w);
+            _widLblFont = vfont(false, 16, w);
+            _topValFont = vfont(true, 34, w);
+            _topLblFont = vfont(false, 18, w);
+            _dateFont = vfont(true, 24, w);
         }
+    }
+
+    // Roboto Condensed vector font; size is in pixels on the 454px screen.
+    private function vfont(bold as Boolean, size as Number, w as Number) as VectorFont? {
+        var faces = bold ? ["RobotoCondensedBold", "RobotoCondensedRegular", "RobotoRegular"]
+                         : ["RobotoCondensedRegular", "RobotoCondensedBold", "RobotoRegular"];
+        return Graphics.getVectorFont({ :face => faces, :size => size * w / 454 });
+    }
+
+    // Vector font when available, otherwise the given system font.
+    private function pick(v as VectorFont?, fallback as FontType) as FontType {
+        return (v != null) ? v : fallback;
     }
 
     function onUpdate(dc as Dc) as Void {
@@ -71,7 +81,7 @@ class FaceView extends WatchUi.WatchFace {
         drawTopText(dc, cx, cy, s);
         drawSideText(dc, cx, cy, s);
         drawDate(dc, cx, cy, s);
-        drawTime(dc, cx, cy, s, Cfg.color("TimeColor"), Graphics.FONT_NUMBER_MEDIUM, 0, 0);
+        drawTime(dc, cx, cy, s, Cfg.color("TimeColor"), Graphics.FONT_NUMBER_MILD, 0, 0);
         var wy = cy + (90 * s).toNumber();
         var wr = (46 * s).toNumber();
         var wdx = (104 * s).toNumber();
@@ -147,8 +157,8 @@ class FaceView extends WatchUi.WatchFace {
         var col = Cfg.color("TopColor");
         var m = Metrics.get(id);
         dc.setColor(col, Graphics.COLOR_BLACK);
-        dc.drawText(cx, (68 * s).toNumber(), Graphics.FONT_SMALL, m[1], Graphics.TEXT_JUSTIFY_CENTER | Graphics.TEXT_JUSTIFY_VCENTER);
-        dc.drawText(cx, (103 * s).toNumber(), Graphics.FONT_XTINY, m[2], Graphics.TEXT_JUSTIFY_CENTER | Graphics.TEXT_JUSTIFY_VCENTER);
+        dc.drawText(cx, (74 * s).toNumber(), pick(_topValFont, Graphics.FONT_TINY), m[1], Graphics.TEXT_JUSTIFY_CENTER | Graphics.TEXT_JUSTIFY_VCENTER);
+        dc.drawText(cx, (100 * s).toNumber(), pick(_topLblFont, Graphics.FONT_XTINY), m[2], Graphics.TEXT_JUSTIFY_CENTER | Graphics.TEXT_JUSTIFY_VCENTER);
     }
 
     private function drawSideText(dc as Dc, cx as Number, cy as Number, s as Float) as Void {
@@ -175,7 +185,7 @@ class FaceView extends WatchUi.WatchFace {
         if (texts.size() > 0) {
             var lr = (150 * s).toNumber();
             var wf = (_arcFont != null) ? _arcFont : f;
-            var gap = 12 * s;
+            var gap = 10 * s;
             var widths = [] as Array<Float>;
             var total = gap * (texts.size() - 1);
             for (var i = 0; i < texts.size(); i++) {
@@ -209,7 +219,7 @@ class FaceView extends WatchUi.WatchFace {
     private function drawDate(dc as Dc, cx as Number, cy as Number, s as Float) as Void {
         if (!Cfg.flag("ShowDate", true)) { return; }
         dc.setColor(Cfg.color("DateColor"), Graphics.COLOR_BLACK);
-        dc.drawText(cx, (137 * s).toNumber(), Graphics.FONT_TINY, dateString(),
+        dc.drawText(cx, (134 * s).toNumber(), pick(_dateFont, Graphics.FONT_XTINY), dateString(),
             Graphics.TEXT_JUSTIFY_CENTER | Graphics.TEXT_JUSTIFY_VCENTER);
     }
 
@@ -222,7 +232,7 @@ class FaceView extends WatchUi.WatchFace {
             if (h == 0) { h = 12; }
         }
         dc.setColor(color, Graphics.COLOR_BLACK);
-        dc.drawText(cx + dx, cy - (27 * s).toNumber() + dy, font,
+        dc.drawText(cx + dx, cy - (20 * s).toNumber() + dy, font,
             h.format("%d") + ":" + t.min.format("%02d"),
             Graphics.TEXT_JUSTIFY_CENTER | Graphics.TEXT_JUSTIFY_VCENTER);
     }
@@ -238,9 +248,9 @@ class FaceView extends WatchUi.WatchFace {
         dc.setPenWidth((4 * s).toNumber());
         dc.setColor(col, Graphics.COLOR_BLACK);
         dc.drawCircle(x, y, r);
-        dc.drawText(x, y - (9 * s).toNumber(), (vf != null) ? vf : Graphics.FONT_XTINY, wd[0], just);
+        dc.drawText(x, y - (7 * s).toNumber(), (vf != null) ? vf : Graphics.FONT_XTINY, wd[0], just);
         dc.setColor(Cfg.dim(col, 0.7), Graphics.COLOR_BLACK);
-        dc.drawText(x, y + (20 * s).toNumber(), (lf != null) ? lf : Graphics.FONT_XTINY, wd[1], just);
+        dc.drawText(x, y + (17 * s).toNumber(), (lf != null) ? lf : Graphics.FONT_XTINY, wd[1], just);
     }
 
     // Always-on display: dim time and date only, shifted each minute to limit AMOLED burn-in.
@@ -248,9 +258,9 @@ class FaceView extends WatchUi.WatchFace {
         var m = System.getClockTime().min;
         var dx = ((m % 5) - 2) * 3;
         var dy = (((m / 5) % 5) - 2) * 3;
-        drawTime(dc, cx, cy, s, 0x9AA0A6, Graphics.FONT_NUMBER_HOT, dx, dy);
+        drawTime(dc, cx, cy, s, 0x9AA0A6, Graphics.FONT_NUMBER_MEDIUM, dx, dy);
         dc.setColor(0x606670, Graphics.COLOR_BLACK);
-        dc.drawText(cx + dx, cy - (110 * s).toNumber() + dy, Graphics.FONT_SMALL, dateString(),
+        dc.drawText(cx + dx, cy - (100 * s).toNumber() + dy, pick(_dateFont, Graphics.FONT_XTINY), dateString(),
             Graphics.TEXT_JUSTIFY_CENTER | Graphics.TEXT_JUSTIFY_VCENTER);
     }
 }
