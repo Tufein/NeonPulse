@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Generates resources/properties, settings and strings XML for Neon Pulse.
+"""Generates resources/properties, settings and strings XML for Vivid Orbit.
 
 Edit the tables below and run:  python3 tools/gen_settings.py
 """
@@ -61,7 +61,7 @@ SETTINGS = [
 ]
 
 def main():
-    strings = {"AppName": "Neon Pulse"}
+    strings = {"AppName": "Vivid Orbit"}
     option_ids = {}  # option text -> string id (shared between settings)
     props, sets = [], []
 

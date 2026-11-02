@@ -1,4 +1,4 @@
-# Neon Pulse (Garmin Connect IQ watchface)
+# Vivid Orbit (Garmin Connect IQ watchface)
 
 Customizable ring-style watchface for the Garmin Fenix 8 51mm AMOLED (454x454).
 
@@ -32,16 +32,16 @@ The settings XML is generated: edit `tools/gen_settings.py` and run `python3 too
 ## Build
 Install the Connect IQ SDK (SDK Manager) and a Java runtime, then:
 
-    monkeyc -d fenix847mm -f monkey.jungle -o bin/NeonPulse.prg -y ~/.garmin-keys/developer_key.der
+    monkeyc -d fenix847mm -f monkey.jungle -o bin/VividOrbit.prg -y ~/.garmin-keys/developer_key.der
     connectiq   # start the simulator, then:
-    monkeydo bin/NeonPulse.prg fenix847mm
+    monkeydo bin/VividOrbit.prg fenix847mm
 
 `fenix847mm` is Garmin's device id for the fenix 8 47mm *and* 51mm AMOLED (454x454);
 there is no separate 51mm id. Keep the developer key outside the repo.
 
 ## Install on the watch
-Connect the watch by USB and copy `bin/NeonPulse.prg` into `GARMIN/APPS/` on the watch
+Connect the watch by USB and copy `bin/VividOrbit.prg` into `GARMIN/APPS/` on the watch
 (on macOS use Garmin Express or OpenMTP / Android File Transfer, since the fenix 8 uses MTP).
-Unplug, then pick Neon Pulse under Watch Face on the watch.
+Unplug, then pick Vivid Orbit under Watch Face on the watch.
 
 Add more devices in manifest.xml `<iq:products>`.
