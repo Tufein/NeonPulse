@@ -1,0 +1,28 @@
+name: Watchface problem
+description: Report a display, battery or settings problem on a Garmin watch.
+body:
+  - type: markdown
+    attributes:
+      value: Do not attach your developer key or any .iq/.prg file you are not allowed to publish.
+  - type: input
+    id: version
+    attributes:
+      label: Version and download source
+    validations:
+      required: true
+  - type: input
+    id: device
+    attributes:
+      label: Watch model and Connect IQ firmware version
+    validations:
+      required: true
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Steps, expected result, and actual result
+    validations:
+      required: true
+  - type: textarea
+    id: conditions
+    attributes:
+      label: Enabled arcs and widgets, background, and whether the problem appears in the always-on view

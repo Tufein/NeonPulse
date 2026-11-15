@@ -2,3 +2,4 @@ bin/
 *.prg
 *.iq
 developer_key*
+*.der

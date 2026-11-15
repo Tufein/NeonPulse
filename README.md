@@ -45,3 +45,27 @@ Connect the watch by USB and copy `bin/VividOrbit.prg` into `GARMIN/APPS/` on th
 Unplug, then pick Vivid Orbit under Watch Face on the watch.
 
 Add more devices in manifest.xml `<iq:products>`.
+
+## Checks
+
+No SDK or network is needed for these, and CI runs both on every push and pull request:
+
+    python3 tools/check_resources.py   # every @Strings/@Drawables/@Properties reference resolves
+    python3 tools/gen_settings.py      # regenerate settings, then commit the diff
+
+The settings XML in `resources/` is generated from `tools/gen_settings.py`; editing it by hand
+makes the second check fail. Building and signing still need the Connect IQ SDK (see above), so
+CI does not compile the face.
+
+## License
+
+Vivid Orbit is released under the [MIT license](LICENSE). The Garmin Connect IQ SDK, its APIs and the
+device names are Garmin's; this watchface is an independent project and is not affiliated with Garmin.
+
+## Security
+
+See [SECURITY.md](SECURITY.md) for how to report a vulnerability and which secrets this project stores.
+
+## Documentation
+
+[Contributing](CONTRIBUTING.md) · [Security](SECURITY.md) · [Publishing](docs/PUBLISHING.md)
