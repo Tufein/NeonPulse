@@ -22,6 +22,7 @@
 <property id="WidgetRing" type="boolean">true</property>
 <property id="TimeColor" type="number">0</property>
 <property id="TimeSize" type="number">0</property>
+<property id="TimeSeconds" type="boolean">false</property>
 <property id="TimeFormat" type="number">0</property>
 <property id="DateColor" type="number">0</property>
 <property id="DateFormat" type="number">0</property>

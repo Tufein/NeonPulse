@@ -20,9 +20,17 @@ class FaceView extends WatchUi.WatchFace {
     private var _topValFont as VectorFont? = null;
     private var _topLblFont as VectorFont? = null;
     private var _dateFont as VectorFont? = null;
+    private var _leftFont as VectorFont? = null;   // values next to the three left arcs
+    private var _timeFont as FontType = Graphics.FONT_NUMBER_MILD;
+    private var _secFont as FontType = Graphics.FONT_XTINY;  // seconds after the time
 
     private const JUST = Graphics.TEXT_JUSTIFY_CENTER | Graphics.TEXT_JUSTIFY_VCENTER;
     private const CLEAR = Graphics.COLOR_TRANSPARENT;
+
+    // Left arcs: radii (outer to inner, 454px units) and the angle where they stop.
+    // Each arc's value is written on the same circle just past that point.
+    private const LEFT_R = [200, 186, 172];
+    private const LEFT_END = 162;
 
     function initialize() {
         WatchFace.initialize();
@@ -41,9 +49,11 @@ class FaceView extends WatchUi.WatchFace {
     // ---- fonts -------------------------------------------------------------
 
     private function loadFonts(w as Number) as Void {
-        var key = Cfg.num("LabelSize", 1) * 10 + Cfg.num("TopTextSize", 1);
+        var timeSize = Cfg.num("TimeSize", 0);
+        var key = timeSize * 100 + Cfg.num("LabelSize", 1) * 10 + Cfg.num("TopTextSize", 1);
         if (key == _fontKey) { return; }
         _fontKey = key;
+        loadTimeFonts(timeSize);
         if (!(Graphics has :getVectorFont)) { return; }
         var ls = Cfg.scale("LabelSize");
         var ts = Cfg.scale("TopTextSize");
@@ -53,6 +63,33 @@ class FaceView extends WatchUi.WatchFace {
         _dateFont = vfont(true, 24 * ls, w);
         _topValFont = vfont(true, 34 * ts, w);
         _topLblFont = vfont(false, 16 * ts, w);
+        _leftFont = vfont(true, 15 * ls, w);
+    }
+
+    // Time size setting: 0 Normal, 1 Large (the original two), 2 Small, 3 Medium.
+    // Small and Medium are vector fonts sized from the Normal number font, so they keep their
+    // proportions on any screen; without vector fonts they fall back to system fonts.
+    private function loadTimeFonts(size as Number) as Void {
+        var hasVector = Graphics has :getVectorFont;
+        var base = Graphics.getFontHeight(Graphics.FONT_NUMBER_MILD);
+        if (size == 1) {
+            _timeFont = Graphics.FONT_NUMBER_MEDIUM;
+        } else if (size == 2) {
+            _timeFont = hasVector ? timeVFont(base * 0.62) : Graphics.FONT_LARGE;
+        } else if (size == 3) {
+            _timeFont = hasVector ? timeVFont(base * 0.8) : Graphics.FONT_NUMBER_MILD;
+        } else {
+            _timeFont = Graphics.FONT_NUMBER_MILD;
+        }
+        // Seconds: about 40% of the time height, never smaller than 16 px.
+        var sh = Graphics.getFontHeight(_timeFont) * 0.4;
+        if (sh < 16.0) { sh = 16.0; }
+        _secFont = hasVector ? timeVFont(sh) : Graphics.FONT_XTINY;
+    }
+
+    private function timeVFont(px as Float) as FontType {
+        var f = Graphics.getVectorFont({ :face => ["RobotoCondensedBold", "RobotoRegular"], :size => px.toNumber() });
+        return (f != null) ? f : Graphics.FONT_NUMBER_MILD;
     }
 
     // Roboto Condensed vector font; size is in pixels on the 454px screen.
@@ -92,9 +129,10 @@ class FaceView extends WatchUi.WatchFace {
         var topStyle = Cfg.num("TopStyle", 0); // 0 arc + value, 1 value only, 2 arc only
         if (topStyle != 1) { gauge(dc, cx, cy, s, "Top", 200, 135, 90, true, 10 * aw); }
         gauge(dc, cx, cy, s, "Right", 200, -30, 60, false, 10 * aw);
-        gauge(dc, cx, cy, s, "Left1", 200, 210, 60, true, 8 * aw);
-        gauge(dc, cx, cy, s, "Left2", 186, 210, 60, true, 8 * aw);
-        gauge(dc, cx, cy, s, "Left3", 172, 210, 60, true, 8 * aw);
+        // Left arcs end at LEFT_END so their values can continue along the same circle.
+        gauge(dc, cx, cy, s, "Left1", LEFT_R[0] as Number, 210, 210 - LEFT_END, true, 8 * aw);
+        gauge(dc, cx, cy, s, "Left2", LEFT_R[1] as Number, 210, 210 - LEFT_END, true, 8 * aw);
+        gauge(dc, cx, cy, s, "Left3", LEFT_R[2] as Number, 210, 210 - LEFT_END, true, 8 * aw);
         gauge(dc, cx, cy, s, "Bottom", 200, 220, 100, false, 10 * aw);
 
         if (topStyle != 2) { drawTopText(dc, cx, s); }
@@ -104,9 +142,7 @@ class FaceView extends WatchUi.WatchFace {
             dc.setColor(Cfg.color("DateColor"), CLEAR);
             dc.drawText(cx, (134 * s).toNumber(), pick(_dateFont, Graphics.FONT_XTINY), dateString(), JUST);
         }
-        var large = Cfg.num("TimeSize", 0) == 1;
-        drawTime(dc, cx, cy, s, Cfg.color("TimeColor"),
-            large ? Graphics.FONT_NUMBER_MEDIUM : Graphics.FONT_NUMBER_MILD, 0, 0);
+        drawTime(dc, cx, cy, s, Cfg.color("TimeColor"), 0, 0, Cfg.flag("TimeSeconds", false));
 
         var wy = cy + (90 * s).toNumber();
         var wr = (46 * s).toNumber();
@@ -194,7 +230,11 @@ class FaceView extends WatchUi.WatchFace {
     // Text bent along the circle, falling back to plain text if unsupported.
     private function radial(dc as Dc, cx as Number, cy as Number, text as String,
                             angle as Number, radius as Number, cw as Boolean) as Void {
-        var vf = _arcFont;
+        radialFont(dc, cx, cy, _arcFont, text, angle, radius, cw);
+    }
+
+    private function radialFont(dc as Dc, cx as Number, cy as Number, vf as VectorFont?, text as String,
+                                angle as Number, radius as Number, cw as Boolean) as Void {
         if (vf != null && (dc has :drawRadialText)) {
             dc.drawRadialText(cx, cy, vf, text, Graphics.TEXT_JUSTIFY_CENTER, angle, radius,
                 cw ? Graphics.RADIAL_TEXT_DIRECTION_CLOCKWISE : Graphics.RADIAL_TEXT_DIRECTION_COUNTER_CLOCKWISE);
@@ -242,37 +282,19 @@ class FaceView extends WatchUi.WatchFace {
             dc.setColor(Cfg.color("RightColor"), CLEAR);
             radial(dc, cx, cy, units ? m[1] + " " + m[2] : m[1], 0, (170 * s).toNumber(), true);
         }
-        // Left: up to three values in a row along the rim (outer arc lowest), each in its
-        // arc color. Spaced by their real widths and centered at 168 deg so they stay clear
-        // of the date above and the widget row below.
+        // Left: each value runs on its own arc's circle, continuing the line upward past
+        // the arc's end (bottom-to-top, like the arc itself), in the arc's color.
         var slots = ["Left1", "Left2", "Left3"];
-        var texts = [] as Array<String>;
-        var cols = [] as Array<Number>;
+        var lf = pick(_leftFont, Graphics.FONT_XTINY);
         for (var i = 0; i < 3; i++) {
             var lid = Cfg.num(slots[i] + "Field", 0);
             if (lid == 0) { continue; }
-            texts.add(Metrics.get(lid)[1] as String);
-            cols.add(Cfg.color(slots[i] + "Color"));
-        }
-        if (texts.size() > 0) {
-            var lr = (150 * s).toNumber();
-            var wf = pick(_arcFont, Graphics.FONT_XTINY);
-            var gap = 10 * s;
-            var widths = [] as Array<Float>;
-            var total = gap * (texts.size() - 1);
-            for (var i = 0; i < texts.size(); i++) {
-                var tw = dc.getTextWidthInPixels(texts[i], wf).toFloat();
-                widths.add(tw);
-                total += tw;
-            }
-            var degPerPx = 180.0 / (Math.PI * lr);
-            var a = 168.0 + total * degPerPx / 2.0; // clockwise text runs from high to low angle
-            for (var i = 0; i < texts.size(); i++) {
-                var half = widths[i] * degPerPx / 2.0;
-                dc.setColor(cols[i], CLEAR);
-                radial(dc, cx, cy, texts[i], (a - half).toNumber(), lr, true);
-                a -= 2.0 * half + gap * degPerPx;
-            }
+            var text = Metrics.get(lid)[1] as String;
+            var r = (LEFT_R[i] as Number) * s;
+            var halfDeg = dc.getTextWidthInPixels(text, lf) * 90.0 / (Math.PI * r);
+            // Start 4 deg past the arc end (clear of its rounded cap); text centered after that.
+            dc.setColor(Cfg.color(slots[i] + "Color"), CLEAR);
+            radialFont(dc, cx, cy, _leftFont, text, (LEFT_END - 4 - halfDeg).toNumber(), r.toNumber(), true);
         }
         // Bottom: unit + value reading left to right.
         var bid = Cfg.num("BottomField", 0);
@@ -296,8 +318,10 @@ class FaceView extends WatchUi.WatchFace {
         return (i.day_of_week + " " + i.day + " " + i.month).toUpper();
     }
 
+    // hh:mm in the chosen time font; with seconds on, small ss digits follow on the same
+    // baseline and the pair is centered as one block.
     private function drawTime(dc as Dc, cx as Number, cy as Number, s as Float, color as Number,
-                              font as FontType, dx as Number, dy as Number) as Void {
+                              dx as Number, dy as Number, withSec as Boolean) as Void {
         var t = System.getClockTime();
         var fmt = Cfg.num("TimeFormat", 0); // 0 watch setting, 1 12h, 2 24h
         var is24 = (fmt == 0) ? System.getDeviceSettings().is24Hour : (fmt == 2);
@@ -306,9 +330,25 @@ class FaceView extends WatchUi.WatchFace {
             h = h % 12;
             if (h == 0) { h = 12; }
         }
+        var hm = h.format("%d") + ":" + t.min.format("%02d");
+        var y = cy - (20 * s).toNumber() + dy;
         dc.setColor(color, CLEAR);
-        dc.drawText(cx + dx, cy - (20 * s).toNumber() + dy, font,
-            h.format("%d") + ":" + t.min.format("%02d"), JUST);
+        if (!withSec) {
+            dc.drawText(cx + dx, y, _timeFont, hm, JUST);
+            return;
+        }
+        var ss = t.sec.format("%02d");
+        var gap = (6 * s).toNumber();
+        var tw = dc.getTextWidthInPixels(hm, _timeFont);
+        var sw = dc.getTextWidthInPixels(ss, _secFont);
+        var x = cx + dx - (tw + gap + sw) / 2;
+        var left = Graphics.TEXT_JUSTIFY_LEFT | Graphics.TEXT_JUSTIFY_VCENTER;
+        dc.drawText(x, y, _timeFont, hm, left);
+        // Digits fill roughly 72% of a font's line height; line up the bottoms of both.
+        var th = Graphics.getFontHeight(_timeFont);
+        var sh = Graphics.getFontHeight(_secFont);
+        dc.setColor(Cfg.dim(color, 0.8), CLEAR);
+        dc.drawText(x + tw + gap, y + ((th - sh) * 0.36).toNumber(), _secFont, ss, left);
     }
 
     // Round widget: progress ring (or plain ring), small icon, value and label.
@@ -399,9 +439,8 @@ class FaceView extends WatchUi.WatchFace {
         var m = System.getClockTime().min;
         var dx = (((m % 5) - 2) * 4 * s).toNumber();
         var dy = ((((m / 5) % 5) - 2) * 4 * s).toNumber();
-        var large = Cfg.num("TimeSize", 0) == 1;
-        drawTime(dc, cx, cy, s, Cfg.dim(Cfg.color("TimeColor"), 0.6),
-            large ? Graphics.FONT_NUMBER_MEDIUM : Graphics.FONT_NUMBER_MILD, dx, dy);
+        // Seconds stay hidden here: always-on only redraws once a minute.
+        drawTime(dc, cx, cy, s, Cfg.dim(Cfg.color("TimeColor"), 0.6), dx, dy, false);
         if (Cfg.flag("ShowDate", true)) {
             dc.setColor(Cfg.dim(Cfg.color("DateColor"), 0.45), CLEAR);
             dc.drawText(cx + dx, (134 * s).toNumber() + dy, pick(_dateFont, Graphics.FONT_XTINY), dateString(), JUST);

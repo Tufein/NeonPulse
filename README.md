@@ -5,7 +5,8 @@ Customizable ring-style watchface for the Garmin Fenix 8 51mm AMOLED (454x454).
 - 6 gauge arcs (top, right, 3 left, bottom) with rounded ends, a dim track and a bright fill
 - 3 round widgets with a progress ring (steps, battery, calories, ...), a small icon, value and label
 - Battery on the top arc by default, with a bolt badge at 12 o'clock while charging
-- Seconds marker on the tick ring, burn-in shifted always-on face (dimmed time, date and battery)
+- Seconds marker on the tick ring, optional seconds digits after the time, burn-in shifted always-on face (dimmed time, date and battery)
+- Left arc values run along their own arc, bottom to top, each in its arc color
 
 ## Settings
 All options are in the Garmin Connect app / Connect IQ settings. Defaults give the standard look.
@@ -21,7 +22,8 @@ All options are in the Garmin Connect app / Connect IQ settings. Defaults give t
 | Show units | On / Off |
 | Arc thickness | Thin, Normal, Thick |
 | Tick marks | All minutes, Hours only, None (+ tick color, seconds marker on/off and color) |
-| Time size / format | Normal, Large / Watch setting, 12 hour, 24 hour |
+| Time size / format | Small, Medium, Normal, Large / Watch setting, 12 hour, 24 hour |
+| Seconds after the time | On / Off (default off; hidden in always-on) |
 | Date format | SUN 1 NOV, 1 NOV, 01/11 (+ show date, date color) |
 | Widget rings | On / Off |
 | Background | Black, Charcoal, Navy, Plum, Forest |

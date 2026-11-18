@@ -54,6 +54,7 @@
 <string id="TimeColor">Time color</string>
 <string id="TimeSize">Time size</string>
 <string id="Opt30">Normal</string>
+<string id="TimeSeconds">Seconds after the time</string>
 <string id="TimeFormat">Time format</string>
 <string id="Opt31">Watch setting</string>
 <string id="Opt32">12 hour</string>
