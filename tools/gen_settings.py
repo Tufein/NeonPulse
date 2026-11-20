@@ -40,7 +40,9 @@ SETTINGS = [
     ("W3Color", "Widget 3 (right) color", "list", 7, COLORS),
     ("WidgetRing", "Widget rings", "boolean", True, None),
     ("TimeColor", "Time color", "list", 0, COLORS),
-    ("TimeSize", "Time size", "list", 0, ["Normal", "Large"]),
+    # Values 0/1 predate Small/Medium; keep them so saved settings still mean the same size.
+    ("TimeSize", "Time size", "list", 0, [(2, "Small"), (3, "Medium"), (0, "Normal"), (1, "Large")]),
+    ("TimeSeconds", "Seconds after the time", "boolean", False, None),
     ("TimeFormat", "Time format", "list", 0, ["Watch setting", "12 hour", "24 hour"]),
     ("DateColor", "Date color", "list", 0, COLORS),
     ("DateFormat", "Date format", "list", 0, ["SUN 1 NOV", "1 NOV", "01/11"]),
@@ -75,8 +77,10 @@ def main():
         strings[sid] = title
         if kind == "list":
             props.append('<property id="%s" type="number">%d</property>' % (sid, default))
-            entries = "".join('<listEntry value="%d">@Strings.%s</listEntry>\n' % (i, opt_id(o))
-                              for i, o in enumerate(opts))
+            # Options are plain labels (value = position) or (value, label) pairs.
+            pairs = [o if isinstance(o, tuple) else (i, o) for i, o in enumerate(opts)]
+            entries = "".join('<listEntry value="%d">@Strings.%s</listEntry>\n' % (v, opt_id(o))
+                              for v, o in pairs)
             sets.append('<setting propertyKey="@Properties.%s" title="@Strings.%s"><settingConfig type="list">\n%s</settingConfig></setting>' % (sid, sid, entries))
         elif kind == "boolean":
             props.append('<property id="%s" type="boolean">%s</property>' % (sid, "true" if default else "false"))

@@ -259,9 +259,12 @@
 <listEntry value="11">@Strings.Opt21</listEntry>
 </settingConfig></setting>
 <setting propertyKey="@Properties.TimeSize" title="@Strings.TimeSize"><settingConfig type="list">
+<listEntry value="2">@Strings.Opt25</listEntry>
+<listEntry value="3">@Strings.Opt26</listEntry>
 <listEntry value="0">@Strings.Opt30</listEntry>
 <listEntry value="1">@Strings.Opt27</listEntry>
 </settingConfig></setting>
+<setting propertyKey="@Properties.TimeSeconds" title="@Strings.TimeSeconds"><settingConfig type="boolean"/></setting>
 <setting propertyKey="@Properties.TimeFormat" title="@Strings.TimeFormat"><settingConfig type="list">
 <listEntry value="0">@Strings.Opt31</listEntry>
 <listEntry value="1">@Strings.Opt32</listEntry>
