@@ -23,6 +23,22 @@ module Cfg {
     // Background list: Black, Charcoal, Navy, Plum, Forest.
     const BACKGROUNDS = [0x000000, 0x0E1116, 0x0A1028, 0x140A22, 0x07160F];
 
+    // Theme presets, 11 colors each: top/bottom accent, right, left 1-3, widget 1-3,
+    // time, tick/date and seconds. Row 0 is "Custom" (element colors) and unused.
+    const THEME_COLORS = 11;
+    const THEMES = [
+        0xFFFFFF, 0xFFFFFF, 0xFFFFFF, 0xFFFFFF, 0xFFFFFF, 0xFFFFFF, 0xFFFFFF,
+        0xFFFFFF, 0xFFFFFF, 0xFFFFFF, 0xFFFFFF, // Custom
+        0x00E5FF, 0xFF00AA, 0xB070FF, 0x7C8CFF, 0x2FA8FF, 0x00E5A0, 0x00E5FF,
+        0xFFB000, 0xFFFFFF, 0x5B6472, 0xFFB000, // Neon
+        0xFF7A1A, 0xFF3B5C, 0xFFB000, 0xFF4FA3, 0xFF8A5C, 0xFFD166, 0xFF7A1A,
+        0xFFE000, 0xFFFFFF, 0x6B5B5B, 0xFFE000, // Sunset
+        0x7FDBFF, 0x4FA3FF, 0xA0E8D0, 0xC8F0FF, 0x6FC3FF, 0x8FE3FF, 0x7FDBFF,
+        0xE8FBFF, 0xFFFFFF, 0x5A6B78, 0xE8FBFF, // Arctic
+        0xFFFFFF, 0xC0C6CE, 0x8A9099, 0xA8AEB7, 0xD6DAE0, 0xFFFFFF, 0xE6E9ED,
+        0xC0C6CE, 0xFFFFFF, 0x565C64, 0xFFFFFF  // Mono
+    ];
+
     function value(key as String) as PropertyValueType? {
         try {
             return Application.Properties.getValue(key);
@@ -41,7 +57,34 @@ module Cfg {
         return (v instanceof Boolean) ? v : def;
     }
 
+    // Selected theme index; 0 means the per-element colors apply.
+    function theme() as Number {
+        var i = num("Theme", 0);
+        return (i > 0 && i * THEME_COLORS < THEMES.size()) ? i : 0;
+    }
+
+    // Theme slot for an element color key; -1 when the key has no theme slot.
+    function role(key as String) as Number {
+        if (key.equals("TopColor") || key.equals("BottomColor")) { return 0; }
+        if (key.equals("RightColor")) { return 1; }
+        if (key.equals("Left1Color")) { return 2; }
+        if (key.equals("Left2Color")) { return 3; }
+        if (key.equals("Left3Color")) { return 4; }
+        if (key.equals("W1Color")) { return 5; }
+        if (key.equals("W2Color")) { return 6; }
+        if (key.equals("W3Color")) { return 7; }
+        if (key.equals("TimeColor")) { return 8; }
+        if (key.equals("DateColor") || key.equals("TickColor")) { return 9; }
+        if (key.equals("SecColor")) { return 10; }
+        return -1;
+    }
+
     function color(key as String) as Number {
+        var t = theme();
+        if (t > 0) {
+            var r = role(key);
+            if (r >= 0) { return THEMES[t * THEME_COLORS + r] as Number; }
+        }
         var i = num(key, 0);
         if (i == CUSTOM_1) { return hex("CustomColor1", 0x00E5FF); }
         if (i == CUSTOM_2) { return hex("CustomColor2", 0xFF00AA); }

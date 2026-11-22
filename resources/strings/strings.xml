@@ -1,5 +1,5 @@
 <strings>
-<string id="AppName">Vivid Orbit</string>
+<string id="AppName">Ion Ring</string>
 <string id="TopField">Top arc</string>
 <string id="Opt0">None</string>
 <string id="Opt1">Battery</string>
@@ -84,6 +84,23 @@
 <string id="CustomColor1">Custom color 1 (hex RRGGBB)</string>
 <string id="CustomColor2">Custom color 2 (hex RRGGBB)</string>
 <string id="CalorieGoal">Calorie goal</string>
-<string id="DistGoal">Distance goal (km)</string>
+<string id="DistGoal">Distance goal</string>
 <string id="HrMax">Max heart rate</string>
+<string id="Glow">Neon glow</string>
+<string id="SecStyle">Seconds marker style</string>
+<string id="Opt46">Line</string>
+<string id="Opt47">Dot</string>
+<string id="AodContent">Always-on content</string>
+<string id="Opt48">Time, date + battery</string>
+<string id="Opt49">Time + battery</string>
+<string id="Opt50">Time only</string>
+<string id="BurnInShift">Shift always-on screen</string>
+<string id="PhoneAlert">Phone connection alert</string>
+<string id="LowBatteryWarn">Low battery warning</string>
+<string id="Theme">Color theme</string>
+<string id="Opt51">Custom</string>
+<string id="Opt52">Neon</string>
+<string id="Opt53">Sunset</string>
+<string id="Opt54">Arctic</string>
+<string id="Opt55">Mono</string>
 </strings>

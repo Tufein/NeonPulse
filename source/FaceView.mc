@@ -11,6 +11,9 @@ import Toybox.WatchUi;
 // Angles follow Garmin's convention: 0 = 3 o'clock, counter-clockwise positive.
 class FaceView extends WatchUi.WatchFace {
     private var _lowPower as Boolean = false;
+    // Per-frame copy of the glow setting, read by several drawing helpers.
+    private var _glow as Boolean = true;
+    private const WARN_COLOR = 0xFF3B5C;
 
     // Vector fonts, rebuilt when a text size setting changes.
     private var _fontKey as Number = -1;
@@ -75,6 +78,7 @@ class FaceView extends WatchUi.WatchFace {
         var cy = dc.getHeight() / 2;
         var s = w / 454.0;
         loadFonts(w);
+        _glow = Cfg.flag("Glow", true);
 
         if (_lowPower) {
             dc.setColor(Graphics.COLOR_WHITE, Graphics.COLOR_BLACK);
@@ -98,7 +102,11 @@ class FaceView extends WatchUi.WatchFace {
         gauge(dc, cx, cy, s, "Bottom", 200, 220, 100, false, 10 * aw);
 
         if (topStyle != 2) { drawTopText(dc, cx, s); }
-        if (Metrics.charging()) { drawChargeBadge(dc, cx, (50 * s).toNumber(), s); }
+        if (Metrics.charging()) {
+            drawChargeBadge(dc, cx, (50 * s).toNumber(), s);
+        } else if (Cfg.flag("PhoneAlert", true) && !System.getDeviceSettings().phoneConnected) {
+            drawPhoneBadge(dc, cx, (50 * s).toNumber(), s);
+        }
         drawSideText(dc, cx, cy, s);
         if (Cfg.flag("ShowDate", true)) {
             dc.setColor(Cfg.color("DateColor"), CLEAR);
@@ -130,6 +138,28 @@ class FaceView extends WatchUi.WatchFace {
         return cy - Math.sin(Math.toRadians(deg)) * r;
     }
 
+    private function lowBattery() as Boolean {
+        return Cfg.flag("LowBatteryWarn", true) && !Metrics.charging()
+            && System.getSystemStats().battery <= 20;
+    }
+
+    // Slot color, switched to the warning red while the battery is low.
+    private function fieldColor(slot as String, isBattery as Boolean) as Number {
+        if (isBattery && lowBattery()) { return WARN_COLOR; }
+        return Cfg.color(slot);
+    }
+
+    // Wide dim underlay that reads as a neon glow on the AMOLED panel.
+    private function glowArc(dc as Dc, cx as Number, cy as Number, r as Number, startDeg as Number,
+                             endDeg as Number, attr as Number, pen as Number, col as Number) as Void {
+        dc.setPenWidth((pen * 2.6).toNumber());
+        dc.setColor(Cfg.dim(col, 0.14), CLEAR);
+        dc.drawArc(cx, cy, r, attr, norm(startDeg), norm(endDeg));
+        var cap = pen * 1.3;
+        dc.fillCircle(px(cx, startDeg.toFloat(), r.toFloat()), py(cy, startDeg.toFloat(), r.toFloat()), cap);
+        dc.fillCircle(px(cx, endDeg.toFloat(), r.toFloat()), py(cy, endDeg.toFloat(), r.toFloat()), cap);
+    }
+
     // Arc with rounded ends: dim full-length track, bright fill for the metric's fraction.
     private function arcRounded(dc as Dc, cx as Number, cy as Number, r as Number, startDeg as Number,
                                 span as Number, cw as Boolean, pen as Number, col as Number, frac as Float) as Void {
@@ -137,6 +167,8 @@ class FaceView extends WatchUi.WatchFace {
         var dir = cw ? -1 : 1;
         var endDeg = startDeg + dir * span;
         var cap = pen / 2.0;
+
+        if (_glow) { glowArc(dc, cx, cy, r, startDeg, endDeg, attr, pen, col); }
 
         dc.setPenWidth(pen);
         dc.setColor(Cfg.dim(col, 0.2), CLEAR);
@@ -164,7 +196,7 @@ class FaceView extends WatchUi.WatchFace {
         var p = (pen * s).toNumber();
         if (p < 2) { p = 2; }
         arcRounded(dc, cx, cy, (radius * s).toNumber(), startDeg, span, cw, p,
-            Cfg.color(slot + "Color"), m[0] as Float);
+            fieldColor(slot + "Color", id == 1), m[0] as Float);
     }
 
     private function drawTicks(dc as Dc, cx as Number, cy as Number, s as Float) as Void {
@@ -185,9 +217,20 @@ class FaceView extends WatchUi.WatchFace {
         }
         if (showSec) {
             var deg = (90 - sec * 6).toFloat();
-            dc.setColor(Cfg.color("SecColor"), CLEAR);
-            dc.setPenWidth((4 * s).toNumber());
-            dc.drawLine(px(cx, deg, 207 * s), py(cy, deg, 207 * s), px(cx, deg, outer), py(cy, deg, outer));
+            var col = Cfg.color("SecColor");
+            var sr = 219 * s;
+            dc.setColor(col, CLEAR);
+            if (Cfg.num("SecStyle", 0) == 1) { // pulse dot
+                if (_glow) {
+                    dc.setColor(Cfg.dim(col, 0.25), CLEAR);
+                    dc.fillCircle(px(cx, deg, sr), py(cy, deg, sr), 9 * s);
+                    dc.setColor(col, CLEAR);
+                }
+                dc.fillCircle(px(cx, deg, sr), py(cy, deg, sr), 5 * s);
+            } else {
+                dc.setPenWidth((4 * s).toNumber());
+                dc.drawLine(px(cx, deg, 207 * s), py(cy, deg, 207 * s), px(cx, deg, outer), py(cy, deg, outer));
+            }
         }
     }
 
@@ -209,7 +252,7 @@ class FaceView extends WatchUi.WatchFace {
         var id = Cfg.num("TopField", 0);
         if (id == 0) { return; }
         var m = Metrics.get(id);
-        var col = Cfg.color("TopColor");
+        var col = fieldColor("TopColor", id == 1);
         var ts = Cfg.scale("TopTextSize");
         var units = Cfg.flag("ShowUnits", true);
         var vy = units ? 80 : 88;
@@ -233,13 +276,25 @@ class FaceView extends WatchUi.WatchFace {
         drawIcon(dc, 6, x, y, 8 * s);
     }
 
+    // Small circle with a slashed handset, shown at 12 o'clock when the phone is away.
+    private function drawPhoneBadge(dc as Dc, x as Number, y as Number, s as Float) as Void {
+        var col = Cfg.color("TopColor");
+        var r = 13 * s;
+        dc.setColor(Cfg.dim(col, 0.25), CLEAR);
+        dc.fillCircle(x, y, r);
+        dc.setColor(col, CLEAR);
+        dc.setPenWidth((2 * s).toNumber());
+        dc.drawCircle(x, y, r);
+        drawIcon(dc, 10, x, y, 8 * s);
+    }
+
     private function drawSideText(dc as Dc, cx as Number, cy as Number, s as Float) as Void {
         var units = Cfg.flag("ShowUnits", true);
         // Right: value + unit running downward.
         var id = Cfg.num("RightField", 0);
         if (id != 0) {
             var m = Metrics.get(id);
-            dc.setColor(Cfg.color("RightColor"), CLEAR);
+            dc.setColor(fieldColor("RightColor", id == 1), CLEAR);
             radial(dc, cx, cy, units ? m[1] + " " + m[2] : m[1], 0, (170 * s).toNumber(), true);
         }
         // Left: up to three values in a row along the rim (outer arc lowest), each in its
@@ -252,7 +307,7 @@ class FaceView extends WatchUi.WatchFace {
             var lid = Cfg.num(slots[i] + "Field", 0);
             if (lid == 0) { continue; }
             texts.add(Metrics.get(lid)[1] as String);
-            cols.add(Cfg.color(slots[i] + "Color"));
+            cols.add(fieldColor(slots[i] + "Color", lid == 1));
         }
         if (texts.size() > 0) {
             var lr = (150 * s).toNumber();
@@ -278,7 +333,7 @@ class FaceView extends WatchUi.WatchFace {
         var bid = Cfg.num("BottomField", 0);
         if (bid != 0) {
             var bm = Metrics.get(bid);
-            dc.setColor(Cfg.color("BottomColor"), CLEAR);
+            dc.setColor(fieldColor("BottomColor", bid == 1), CLEAR);
             radial(dc, cx, cy, units ? bm[2] + "  " + bm[1] : bm[1], 270, (170 * s).toNumber(), false);
         }
     }
@@ -315,12 +370,17 @@ class FaceView extends WatchUi.WatchFace {
     private function drawWidget(dc as Dc, x as Number, y as Number, r as Number, s as Float, slot as String) as Void {
         var id = Cfg.num(slot + "Field", 0);
         if (id == 0) { return; }
-        var col = Cfg.color(slot + "Color");
+        var col = fieldColor(slot + "Color", id == 2); // widget 2 is battery
         var wd = Metrics.widget(id);
         var frac = wd[2] as Float;
         var pen = (4 * s).toNumber();
 
         if (Cfg.flag("WidgetRing", true)) {
+            if (_glow) {
+                dc.setPenWidth((pen * 2.6).toNumber());
+                dc.setColor(Cfg.dim(col, 0.14), CLEAR);
+                dc.drawCircle(x, y, r);
+            }
             dc.setPenWidth(pen);
             if (frac < 0.0) {
                 dc.setColor(Cfg.dim(col, 0.55), CLEAR);
@@ -390,6 +450,9 @@ class FaceView extends WatchUi.WatchFace {
             dc.drawLine(x - h * 0.2, y - h * 0.8, x + h * 0.2, y + h * 0.8);
             dc.drawLine(x + h * 0.2, y + h * 0.8, x + h * 0.5, y);
             dc.drawLine(x + h * 0.5, y, x + h, y);
+        } else if (id == 10) { // phone: handset with a slash
+            dc.drawRoundedRectangle(x - h * 0.45, y - h * 0.9, h * 0.9, h * 1.8, h * 0.25);
+            dc.drawLine(x - h * 0.9, y + h * 0.9, x + h * 0.9, y - h * 0.9);
         }
     }
 
@@ -397,17 +460,24 @@ class FaceView extends WatchUi.WatchFace {
     // the whole block shifted each minute to limit AMOLED burn-in.
     private function drawLowPower(dc as Dc, cx as Number, cy as Number, s as Float) as Void {
         var m = System.getClockTime().min;
-        var dx = (((m % 5) - 2) * 4 * s).toNumber();
-        var dy = ((((m / 5) % 5) - 2) * 4 * s).toNumber();
+        var dx = 0;
+        var dy = 0;
+        if (Cfg.flag("BurnInShift", true)) {
+            dx = (((m % 5) - 2) * 4 * s).toNumber();
+            dy = ((((m / 5) % 5) - 2) * 4 * s).toNumber();
+        }
         var large = Cfg.num("TimeSize", 0) == 1;
         drawTime(dc, cx, cy, s, Cfg.dim(Cfg.color("TimeColor"), 0.6),
             large ? Graphics.FONT_NUMBER_MEDIUM : Graphics.FONT_NUMBER_MILD, dx, dy);
-        if (Cfg.flag("ShowDate", true)) {
+        var aod = Cfg.num("AodContent", 0); // 0 time/date/battery, 1 time/battery, 2 time only
+        if (aod == 0 && Cfg.flag("ShowDate", true)) {
             dc.setColor(Cfg.dim(Cfg.color("DateColor"), 0.45), CLEAR);
             dc.drawText(cx + dx, (134 * s).toNumber() + dy, pick(_dateFont, Graphics.FONT_XTINY), dateString(), JUST);
         }
-        var batt = System.getSystemStats().battery.toNumber();
-        dc.setColor(Cfg.dim(Cfg.color("TopColor"), 0.45), CLEAR);
-        dc.drawText(cx + dx, cy + (80 * s).toNumber() + dy, pick(_widValFont, Graphics.FONT_XTINY), batt + "%", JUST);
+        if (aod != 2) {
+            var batt = System.getSystemStats().battery.toNumber();
+            dc.setColor(Cfg.dim(Cfg.color("TopColor"), 0.45), CLEAR);
+            dc.drawText(cx + dx, cy + (80 * s).toNumber() + dy, pick(_widValFont, Graphics.FONT_XTINY), batt + "%", JUST);
+        }
     }
 }

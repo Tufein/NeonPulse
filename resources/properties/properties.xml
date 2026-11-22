@@ -39,4 +39,11 @@
 <property id="CalorieGoal" type="number">2500</property>
 <property id="DistGoal" type="number">10</property>
 <property id="HrMax" type="number">190</property>
+<property id="Glow" type="boolean">true</property>
+<property id="SecStyle" type="number">0</property>
+<property id="AodContent" type="number">0</property>
+<property id="BurnInShift" type="boolean">true</property>
+<property id="PhoneAlert" type="boolean">true</property>
+<property id="LowBatteryWarn" type="boolean">true</property>
+<property id="Theme" type="number">0</property>
 </properties>

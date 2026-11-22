@@ -1,0 +1,404 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ion Ring — face preview</title>
+<style>
+  :root { color-scheme: dark; }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; padding: 40px 32px 56px; background: #07080a; color: #e8ecf1;
+    font: 15px/1.5 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  }
+  header, .grid, footer { max-width: 1180px; margin-left: auto; margin-right: auto; }
+  header { margin-bottom: 28px; }
+  h1 { margin: 0 0 6px; font-size: 26px; font-weight: 600; letter-spacing: .2px; }
+  h1 span { color: #00E5FF; }
+  .sub { margin: 0; color: #8b93a1; max-width: 78ch; }
+  .grid { display: grid; gap: 22px; grid-template-columns: repeat(auto-fit, minmax(290px, 1fr)); }
+  figure {
+    margin: 0; padding: 16px 16px 18px; background: #0d0f13;
+    border: 1px solid #1a1d24; border-radius: 18px;
+  }
+  canvas { display: block; width: 100%; height: auto; border-radius: 50%; background: #000; }
+  figcaption { margin-top: 14px; }
+  .t { font-size: 14px; font-weight: 600; letter-spacing: .3px; }
+  .d { margin-top: 3px; font-size: 12.5px; color: #8b93a1; }
+  .tag {
+    display: inline-block; margin-left: 7px; padding: 1px 7px; border-radius: 999px;
+    font-size: 10.5px; font-weight: 700; letter-spacing: .6px; text-transform: uppercase;
+    vertical-align: 1px;
+  }
+  .old { background: #2a1a1d; color: #ff8c9b; }
+  .new { background: #0e2a2b; color: #4fe3e3; }
+  footer { margin-top: 30px; color: #6d7480; font-size: 12.5px; }
+  code { color: #a9b1bd; }
+</style>
+</head>
+<body>
+<header>
+  <h1>Ion Ring <span>— face preview</span></h1>
+  <p class="sub">Rendered to scale at 454 × 454 from the layout in <code>source/FaceView.mc</code>, so the
+    proportions match the fenix 8 AMOLED. Values are illustrative; the watch fills them from sensors.</p>
+</header>
+
+<div class="grid" id="grid"></div>
+
+<footer>Not a screenshot: a browser rendering of the same geometry, colors and text metrics the face uses.
+  The always-on panel is shown dimmed and shifted as it appears in low-power mode.</footer>
+
+<script>
+"use strict";
+
+const SIZE = 454;
+const CX = 227, CY = 227;
+
+const PAL = {
+  mint: 0x00E5A0, red: 0xFF3B5C, amber: 0xFFB000, blue: 0x2FA8FF, pink: 0xFF4FA3,
+  white: 0xFFFFFF, orange: 0xFF7A1A, grey: 0x808890
+};
+
+const hex = n => "#" + n.toString(16).padStart(6, "0");
+const dim = (n, f) => {
+  const r = Math.round(((n >> 16) & 255) * f);
+  const g = Math.round(((n >> 8) & 255) * f);
+  const b = Math.round((n & 255) * f);
+  return `rgb(${r},${g},${b})`;
+};
+
+// Same 11 theme slots as source/Cfg.mc.
+const THEMES = {
+  custom: {
+    accent: PAL.mint, right: PAL.red, l1: PAL.amber, l2: PAL.blue, l3: PAL.pink,
+    w1: PAL.white, w2: PAL.amber, w3: PAL.orange, time: PAL.white, tick: PAL.grey, sec: PAL.orange
+  },
+  neon: {
+    accent: 0x00E5FF, right: 0xFF00AA, l1: 0xB070FF, l2: 0x7C8CFF, l3: 0x2FA8FF,
+    w1: 0x00E5A0, w2: 0x00E5FF, w3: 0xFFB000, time: 0xFFFFFF, tick: 0x5B6472, sec: 0xFFB000
+  }
+};
+
+const SANS = '"Roboto Condensed", "Arial Narrow", "Helvetica Neue", Arial, sans-serif';
+const WARN = PAL.red;
+
+function arcPoints(cx, cy, r, start, span, cw) {
+  const pts = [];
+  const dir = cw ? -1 : 1;
+  const steps = 56;
+  for (let i = 0; i <= steps; i++) {
+    const a = (start + dir * span * i / steps) * Math.PI / 180;
+    pts.push([cx + Math.cos(a) * r, cy - Math.sin(a) * r]);
+  }
+  return pts;
+}
+
+function stroke(ctx, pts, width, color, alpha) {
+  ctx.save();
+  ctx.globalAlpha = alpha === undefined ? 1 : alpha;
+  ctx.strokeStyle = color;
+  ctx.lineWidth = width;
+  ctx.lineCap = "round";
+  ctx.lineJoin = "round";
+  ctx.beginPath();
+  pts.forEach(([x, y], i) => i ? ctx.lineTo(x, y) : ctx.moveTo(x, y));
+  ctx.stroke();
+  ctx.restore();
+}
+
+function gauge(ctx, r, start, span, cw, frac, color, o) {
+  const pen = 6;
+  const full = arcPoints(CX, CY, r, start, span, cw);
+  if (o.glow) stroke(ctx, full, pen * 2.6, dim(color, 0.14));
+  stroke(ctx, full, pen, dim(color, 0.2));
+  if (frac > 0.01) stroke(ctx, arcPoints(CX, CY, r, start, span * frac, cw), pen, hex(color));
+}
+
+function drawTicks(ctx, o) {
+  const tick = dim(PAL.grey, 0.6);
+  const sec = o.sec === "dot" ? 18 : -1;
+  for (let i = 0; i < 60; i++) {
+    const hour = i % 5 === 0;
+    if (i === sec) continue;
+    const deg = 90 - i * 6;
+    const inner = (hour ? 212 : 219);
+    const a = deg * Math.PI / 180;
+    ctx.save();
+    ctx.strokeStyle = hour ? tick : dim(PAL.grey, 0.36);
+    ctx.lineWidth = hour ? 4 : 2;
+    ctx.lineCap = "round";
+    ctx.beginPath();
+    ctx.moveTo(CX + Math.cos(a) * inner, CY - Math.sin(a) * inner);
+    ctx.lineTo(CX + Math.cos(a) * 226, CY - Math.sin(a) * 226);
+    ctx.stroke();
+    ctx.restore();
+  }
+  if (o.sec === "dot") {
+    const a = (90 - sec * 6) * Math.PI / 180;
+    const x = CX + Math.cos(a) * 219, y = CY - Math.sin(a) * 219;
+    if (o.glow) {
+      ctx.save(); ctx.fillStyle = dim(o.secColor, 0.25);
+      ctx.beginPath(); ctx.arc(x, y, 9, 0, Math.PI * 2); ctx.fill(); ctx.restore();
+    }
+    ctx.save(); ctx.fillStyle = hex(o.secColor);
+    ctx.beginPath(); ctx.arc(x, y, 5, 0, Math.PI * 2); ctx.fill(); ctx.restore();
+  } else if (o.sec === "line") {
+    const a = (90 - 18 * 6) * Math.PI / 180;
+    stroke(ctx, [[CX + Math.cos(a) * 207, CY - Math.sin(a) * 207],
+                 [CX + Math.cos(a) * 226, CY - Math.sin(a) * 226]], 4, hex(o.secColor));
+  }
+}
+
+function radial(ctx, text, deg, r, cw, font, color) {
+  const a = deg * Math.PI / 180;
+  ctx.save();
+  ctx.translate(CX + Math.cos(a) * r, CY - Math.sin(a) * r);
+  ctx.rotate(((cw ? 90 - deg : -90 - deg) * Math.PI) / 180);
+  ctx.fillStyle = color;
+  ctx.font = font;
+  ctx.textAlign = "center";
+  ctx.textBaseline = "middle";
+  ctx.fillText(text, 0, 0);
+  ctx.restore();
+}
+
+function labelFont(size, weight) {
+  return `${weight || 400} ${size}px ${SANS}`;
+}
+
+function drawIcon(ctx, kind, x, y, h, color) {
+  ctx.save();
+  ctx.strokeStyle = color; ctx.fillStyle = color;
+  ctx.lineWidth = Math.max(1, h / 3.5); ctx.lineCap = "round"; ctx.lineJoin = "round";
+  if (kind === "steps") {
+    ctx.beginPath(); ctx.ellipse(x - h * 0.4, y - h * 0.15, h * 0.3, h * 0.55, 0, 0, Math.PI * 2); ctx.fill();
+    ctx.beginPath(); ctx.ellipse(x + h * 0.4, y + h * 0.15, h * 0.3, h * 0.55, 0, 0, Math.PI * 2); ctx.fill();
+  } else if (kind === "battery") {
+    ctx.strokeRect(x - h, y - h * 0.5, h * 1.8, h);
+    ctx.fillRect(x + h * 0.8, y - h * 0.25, h * 0.3, h * 0.5);
+    ctx.fillRect(x - h * 0.75, y - h * 0.28, h * 1.1, h * 0.56);
+  } else if (kind === "bell") {
+    ctx.beginPath();
+    ctx.moveTo(x - h * 0.55, y + h * 0.5); ctx.lineTo(x + h * 0.55, y + h * 0.5);
+    ctx.lineTo(x + h * 0.45, y - h * 0.4); ctx.lineTo(x - h * 0.45, y - h * 0.4);
+    ctx.closePath(); ctx.fill();
+    ctx.beginPath(); ctx.arc(x, y - h * 0.4, h * 0.45, Math.PI, 0); ctx.fill();
+    ctx.fillRect(x - h * 0.85, y + h * 0.45, h * 1.7, h * 0.2);
+    ctx.beginPath(); ctx.arc(x, y + h * 0.85, h * 0.2, 0, Math.PI * 2); ctx.fill();
+  } else if (kind === "bolt") {
+    ctx.beginPath();
+    ctx.moveTo(x + h * 0.2, y - h); ctx.lineTo(x - h * 0.6, y + h * 0.15);
+    ctx.lineTo(x - h * 0.05, y + h * 0.15); ctx.lineTo(x - h * 0.2, y + h);
+    ctx.lineTo(x + h * 0.6, y - h * 0.15); ctx.lineTo(x + h * 0.05, y - h * 0.15);
+    ctx.closePath(); ctx.fill();
+  } else if (kind === "phone") {
+    const w = h * 0.9, hh = h * 1.8, r = h * 0.25;
+    const x0 = x - w / 2, y0 = y - hh / 2;
+    ctx.beginPath();
+    ctx.moveTo(x0 + r, y0); ctx.lineTo(x0 + w - r, y0);
+    ctx.quadraticCurveTo(x0 + w, y0, x0 + w, y0 + r);
+    ctx.lineTo(x0 + w, y0 + hh - r);
+    ctx.quadraticCurveTo(x0 + w, y0 + hh, x0 + w - r, y0 + hh);
+    ctx.lineTo(x0 + r, y0 + hh);
+    ctx.quadraticCurveTo(x0, y0 + hh, x0, y0 + hh - r);
+    ctx.lineTo(x0, y0 + r);
+    ctx.quadraticCurveTo(x0, y0, x0 + r, y0);
+    ctx.stroke();
+    ctx.beginPath();
+    ctx.moveTo(x - h * 0.9, y + h * 0.9); ctx.lineTo(x + h * 0.9, y - h * 0.9); ctx.stroke();
+  }
+  ctx.restore();
+}
+
+function badge(ctx, x, y, color, icon, o) {
+  const r = 13;
+  ctx.save();
+  ctx.fillStyle = dim(color, 0.25);
+  ctx.beginPath(); ctx.arc(x, y, r, 0, Math.PI * 2); ctx.fill();
+  ctx.strokeStyle = hex(color); ctx.lineWidth = 2;
+  ctx.beginPath(); ctx.arc(x, y, r, 0, Math.PI * 2); ctx.stroke();
+  ctx.restore();
+  drawIcon(ctx, icon, x, y, 8, hex(color));
+}
+
+function drawWidget(ctx, x, y, r, o, w) {
+  const frac = w.frac;
+  const color = w.warn ? WARN : w.color;
+  const pen = 5;
+  if (o.glow) {
+    ctx.save();
+    ctx.globalAlpha = 1; ctx.strokeStyle = dim(color, 0.14); ctx.lineWidth = pen * 2.6;
+    ctx.beginPath(); ctx.arc(x, y, r, 0, Math.PI * 2); ctx.stroke(); ctx.restore();
+  }
+  if (frac < 0) {
+    ctx.save(); ctx.strokeStyle = dim(color, 0.55); ctx.lineWidth = pen;
+    ctx.beginPath(); ctx.arc(x, y, r, 0, Math.PI * 2); ctx.stroke(); ctx.restore();
+  } else {
+    ctx.save(); ctx.strokeStyle = dim(color, 0.2); ctx.lineWidth = pen;
+    ctx.beginPath(); ctx.arc(x, y, r, 0, Math.PI * 2); ctx.stroke(); ctx.restore();
+    if (frac > 0.01) {
+      const pts = [];
+      for (let i = 0; i <= 56; i++) {
+        const a = (90 - 360 * frac * i / 56) * Math.PI / 180;
+        pts.push([x + Math.cos(a) * r, y - Math.sin(a) * r]);
+      }
+      stroke(ctx, pts, pen, hex(color));
+    }
+  }
+  drawIcon(ctx, w.icon, x, y - 24, 7, hex(color));
+  ctx.save();
+  ctx.fillStyle = hex(color); ctx.font = labelFont(19, 500);
+  ctx.textAlign = "center"; ctx.textBaseline = "top";
+  if ("letterSpacing" in ctx) ctx.letterSpacing = "0px";
+  ctx.fillText(w.value, x, y);
+  ctx.fillStyle = dim(color, 0.7); ctx.font = labelFont(10.5, 500);
+  if ("letterSpacing" in ctx) ctx.letterSpacing = "0.8px";
+  ctx.fillText(w.label, x, y + 22);
+  ctx.restore();
+}
+
+function drawFace(ctx, o) {
+  ctx.save();
+  ctx.fillStyle = "#000";
+  ctx.fillRect(0, 0, SIZE, SIZE);
+
+  if (o.aod) {
+    ctx.globalAlpha = 1;
+    ctx.fillStyle = dim(o.time, 0.6);
+    ctx.font = labelFont(66, 300);
+    ctx.textAlign = "center"; ctx.textBaseline = "top";
+    ctx.fillText("10:09", CX + 4, 203 - 8);
+    ctx.fillStyle = dim(o.tick, 0.45);
+    ctx.font = labelFont(14, 500);
+    if ("letterSpacing" in ctx) ctx.letterSpacing = "1.4px";
+    ctx.fillText("SUN 22 NOV", CX + 4, 134 - 8);
+    ctx.fillStyle = dim(o.accent, 0.45);
+    ctx.font = labelFont(18, 500);
+    ctx.fillText("86%", CX + 4, 307 - 8);
+    ctx.restore();
+    return;
+  }
+
+  drawTicks(ctx, o);
+
+  // Top, right, three left, bottom: the six gauge slots.
+  gauge(ctx, 200, 135, 90, true, 0.86, o.warnTop ? WARN : o.accent, o);
+  gauge(ctx, 200, -30, 60, false, 0.31, o.right, o);
+  gauge(ctx, 200, 210, 60, true, 0.42, o.l1, o);
+  gauge(ctx, 186, 210, 60, true, 0.78, o.l2, o);
+  gauge(ctx, 172, 210, 60, true, 0.24, o.l3, o);
+  gauge(ctx, 200, 220, 100, false, 0.76, o.accent, o);
+
+  // Right rim: value + unit running down.
+  radial(ctx, "58 BPM", 0, 170, true, labelFont(15, 500), hex(o.right));
+
+  // Left rim: three values in one row, centered at 168 degrees.
+  const texts = ["42", "7842", "512"];
+  const cols = [hex(o.l1), hex(o.l2), hex(o.l3)];
+  ctx.font = labelFont(15, 500);
+  const widths = texts.map(t => ctx.measureText(t).width);
+  const gap = 10;
+  const total = widths.reduce((a, b) => a + b, 0) + gap * (texts.length - 1);
+  const degPerPx = 180 / (Math.PI * 150);
+  let a = 168 + total * degPerPx / 2;
+  for (let i = 0; i < texts.length; i++) {
+    const half = widths[i] * degPerPx / 2;
+    radial(ctx, texts[i], a - half, 150, true, labelFont(15, 500), cols[i]);
+    a -= 2 * half + gap * degPerPx;
+  }
+
+  // Bottom rim: unit + value reading left to right.
+  radial(ctx, "BODY BATTERY  76", 270, 170, false, labelFont(15, 500), hex(o.accent));
+
+  // Time, date and the top arc's value.
+  ctx.fillStyle = hex(o.time);
+  ctx.font = labelFont(66, 300);
+  ctx.textAlign = "center"; ctx.textBaseline = "top";
+  if ("letterSpacing" in ctx) ctx.letterSpacing = "0px";
+  ctx.fillText("10:09", CX, 203);
+
+  ctx.fillStyle = hex(o.tick);
+  ctx.font = labelFont(14, 500);
+  if ("letterSpacing" in ctx) ctx.letterSpacing = "1.4px";
+  ctx.fillText("SUN 22 NOV", CX, 134);
+
+  ctx.fillStyle = hex(o.warnTop ? WARN : o.accent);
+  ctx.font = labelFont(24, 600);
+  if ("letterSpacing" in ctx) ctx.letterSpacing = "0px";
+  ctx.fillText(o.battery + "%", CX, 80);
+  ctx.fillStyle = dim(o.warnTop ? WARN : o.accent, 0.75);
+  ctx.font = labelFont(11.5, 600);
+  if ("letterSpacing" in ctx) ctx.letterSpacing = "1.2px";
+  ctx.fillText("BATTERY", CX, 103);
+
+  drawWidget(ctx, CX - 104, CY + 90, 46, o,
+    { icon: "steps", value: "7842", label: "STEPS", color: o.w1, frac: 0.78 });
+  drawWidget(ctx, CX, CY + 90, 46, o,
+    { icon: "battery", value: o.battery + "%", label: "BATTERY", color: o.w2, frac: o.battery / 100,
+      warn: o.warnTop });
+  drawWidget(ctx, CX + 104, CY + 90, 46, o,
+    { icon: "bell", value: "3", label: "NOTIF", color: o.w3, frac: -1 });
+
+  if (o.phone) badge(ctx, CX, 50, o.accent, "phone", o);
+  ctx.restore();
+}
+
+const PANELS = [
+  {
+    title: "Before — Vivid Orbit", tag: "old",
+    desc: "Line seconds marker, no glow, no phone badge.",
+    o: { glow: false, sec: "line" }
+  },
+  {
+    title: "Ion Ring — new look", tag: "new",
+    desc: "Neon glow under the arcs and widget rings, pulse-dot seconds, slashed-phone badge.",
+    o: { glow: true, sec: "dot", phone: true }
+  },
+  {
+    title: "Color theme: Neon", tag: "new",
+    desc: "One setting recolors the arcs, widgets and text together; Custom keeps the per-element colors.",
+    o: { glow: true, sec: "dot", theme: "neon" }
+  },
+  {
+    title: "Alerts", tag: "new",
+    desc: "Battery at 18%: battery arc, top value and battery widget turn red. Phone still out of range.",
+    o: { glow: true, sec: "dot", battery: 18, warnTop: true, phone: true }
+  },
+  {
+    title: "Always-on", tag: "new",
+    desc: "Dimmed time, date and battery, shifted each minute against AMOLED burn-in (configurable).",
+    o: { aod: true }
+  }
+];
+
+const grid = document.getElementById("grid");
+
+PANELS.forEach(p => {
+  const theme = THEMES[p.o.theme || "custom"];
+  const o = Object.assign({
+    glow: false, sec: "line", phone: false, battery: 86, aod: false,
+    warnTop: false,
+    accent: theme.accent, right: theme.right, l1: theme.l1, l2: theme.l2, l3: theme.l3,
+    w1: theme.w1, w2: theme.w2, w3: theme.w3, time: theme.time, tick: theme.tick,
+    secColor: theme.sec
+  }, p.o);
+
+  const fig = document.createElement("figure");
+  const canvas = document.createElement("canvas");
+  const dpr = Math.min(window.devicePixelRatio || 1, 2);
+  canvas.width = SIZE * dpr;
+  canvas.height = SIZE * dpr;
+  const ctx = canvas.getContext("2d");
+  ctx.scale(dpr, dpr);
+  drawFace(ctx, o);
+
+  const cap = document.createElement("figcaption");
+  cap.innerHTML = `<div class="t">${p.title}<span class="tag ${p.tag}">${p.tag === "old" ? "before" : "new"}</span></div>
+                   <div class="d">${p.desc}</div>`;
+  fig.appendChild(canvas);
+  fig.appendChild(cap);
+  grid.appendChild(fig);
+});
+</script>
+</body>
+</html>

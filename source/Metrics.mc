@@ -76,8 +76,14 @@ module Metrics {
             var v = (info.floorsClimbed != null) ? info.floorsClimbed : 0;
             return [clamp(v.toFloat() / goal), v.toString(), "FLOORS"];
         } else if (id == 8) {
-            var km = (info.distance != null) ? info.distance / 100000.0 : 0.0;
-            return [clamp(km / Cfg.num("DistGoal", 10)), km.format("%.1f"), "KM"];
+            var cm = (info.distance != null) ? info.distance : 0.0;
+            var goal = Cfg.num("DistGoal", 10).toFloat();
+            if (System.getDeviceSettings().distanceUnits == System.UNIT_STATUTE) {
+                var mi = cm / 160934.4;
+                return [clamp(mi / goal), mi.format("%.1f"), "MI"];
+            }
+            var km = cm / 100000.0;
+            return [clamp(km / goal), km.format("%.1f"), "KM"];
         } else if (id == 9) {
             var s = info.stressScore;
             if (s == null) { return [0.0, "--", "STRESS"]; }

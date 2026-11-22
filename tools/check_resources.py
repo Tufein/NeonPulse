@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Checks the Vivid Orbit Connect IQ resources for reference drift.
+"""Checks the Ion Ring Connect IQ resources for reference drift.
 
 Verified without the SDK or any network access:
   1. manifest.xml and every XML file in resources/ parses as XML;

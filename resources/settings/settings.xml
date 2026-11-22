@@ -344,4 +344,24 @@
 <setting propertyKey="@Properties.CalorieGoal" title="@Strings.CalorieGoal"><settingConfig type="numeric" min="500" max="10000"/></setting>
 <setting propertyKey="@Properties.DistGoal" title="@Strings.DistGoal"><settingConfig type="numeric" min="1" max="100"/></setting>
 <setting propertyKey="@Properties.HrMax" title="@Strings.HrMax"><settingConfig type="numeric" min="120" max="220"/></setting>
+<setting propertyKey="@Properties.Glow" title="@Strings.Glow"><settingConfig type="boolean"/></setting>
+<setting propertyKey="@Properties.SecStyle" title="@Strings.SecStyle"><settingConfig type="list">
+<listEntry value="0">@Strings.Opt46</listEntry>
+<listEntry value="1">@Strings.Opt47</listEntry>
+</settingConfig></setting>
+<setting propertyKey="@Properties.AodContent" title="@Strings.AodContent"><settingConfig type="list">
+<listEntry value="0">@Strings.Opt48</listEntry>
+<listEntry value="1">@Strings.Opt49</listEntry>
+<listEntry value="2">@Strings.Opt50</listEntry>
+</settingConfig></setting>
+<setting propertyKey="@Properties.BurnInShift" title="@Strings.BurnInShift"><settingConfig type="boolean"/></setting>
+<setting propertyKey="@Properties.PhoneAlert" title="@Strings.PhoneAlert"><settingConfig type="boolean"/></setting>
+<setting propertyKey="@Properties.LowBatteryWarn" title="@Strings.LowBatteryWarn"><settingConfig type="boolean"/></setting>
+<setting propertyKey="@Properties.Theme" title="@Strings.Theme"><settingConfig type="list">
+<listEntry value="0">@Strings.Opt51</listEntry>
+<listEntry value="1">@Strings.Opt52</listEntry>
+<listEntry value="2">@Strings.Opt53</listEntry>
+<listEntry value="3">@Strings.Opt54</listEntry>
+<listEntry value="4">@Strings.Opt55</listEntry>
+</settingConfig></setting>
 </settings>

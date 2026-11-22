@@ -1,6 +1,6 @@
 # Security and maintenance
 
-Vivid Orbit is an offline watchface: it has no network access and stores nothing but its own
+Ion Ring is an offline watchface: it has no network access and stores nothing but its own
 settings on the watch. The only secret involved is your Garmin developer key, which never belongs in
 this repository.
 

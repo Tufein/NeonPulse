@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Generates resources/properties, settings and strings XML for Vivid Orbit.
+"""Generates resources/properties, settings and strings XML for Ion Ring.
 
 Edit the tables below and run:  python3 tools/gen_settings.py
 """
@@ -56,12 +56,20 @@ SETTINGS = [
     ("CustomColor1", "Custom color 1 (hex RRGGBB)", "text", "00E5FF", None),
     ("CustomColor2", "Custom color 2 (hex RRGGBB)", "text", "FF00AA", None),
     ("CalorieGoal", "Calorie goal", "number", 2500, (500, 10000)),
-    ("DistGoal", "Distance goal (km)", "number", 10, (1, 100)),
+    ("DistGoal", "Distance goal", "number", 10, (1, 100)),
     ("HrMax", "Max heart rate", "number", 190, (120, 220)),
+    ("Glow", "Neon glow", "boolean", True, None),
+    ("SecStyle", "Seconds marker style", "list", 0, ["Line", "Dot"]),
+    ("AodContent", "Always-on content", "list", 0,
+     ["Time, date + battery", "Time + battery", "Time only"]),
+    ("BurnInShift", "Shift always-on screen", "boolean", True, None),
+    ("PhoneAlert", "Phone connection alert", "boolean", True, None),
+    ("LowBatteryWarn", "Low battery warning", "boolean", True, None),
+    ("Theme", "Color theme", "list", 0, ["Custom", "Neon", "Sunset", "Arctic", "Mono"]),
 ]
 
 def main():
-    strings = {"AppName": "Vivid Orbit"}
+    strings = {"AppName": "Ion Ring"}
     option_ids = {}  # option text -> string id (shared between settings)
     props, sets = [], []
 

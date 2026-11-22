@@ -1,6 +1,6 @@
-# Contributing to Vivid Orbit
+# Contributing to Ion Ring
 
-Vivid Orbit is a single-device watchface for the Garmin fenix 8. Changes are small and mostly about
+Ion Ring is a single-device watchface for the Garmin fenix 8. Changes are small and mostly about
 what the dial draws and what it costs in battery.
 
 ## Layout
@@ -27,8 +27,8 @@ regenerate the resources before you push.
 Building needs the Connect IQ SDK and a Java runtime (not installed in CI, so CI does not compile):
 
 ```sh
-monkeyc -d fenix847mm -f monkey.jungle -o bin/VividOrbit.prg -y ~/.garmin-keys/developer_key.der
-monkeydo bin/VividOrbit.prg fenix847mm
+monkeyc -d fenix847mm -f monkey.jungle -o bin/IonRing.prg -y ~/.garmin-keys/developer_key.der
+monkeydo bin/IonRing.prg fenix847mm
 ```
 
 Never commit the developer key or the built `.iq`/`.prg` files; `.gitignore` already excludes them.
