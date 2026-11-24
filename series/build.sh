@@ -13,6 +13,16 @@ SIM="${1:-}"
 [ -d /opt/homebrew/opt/openjdk@21/bin ] && export PATH="/opt/homebrew/opt/openjdk@21/bin:$PATH"
 
 cd "$(dirname "$0")"
+# Find the SDK the SDK Manager marked as current when monkeyc is not on PATH.
+if ! command -v monkeyc >/dev/null; then
+    CIQ="$HOME/Library/Application Support/Garmin/ConnectIQ"
+    SDK=""
+    [ -f "$CIQ/current-sdk.cfg" ] && SDK="$(head -n 1 "$CIQ/current-sdk.cfg" | tr -d '\r')"
+    if [ -z "$SDK" ] || [ ! -x "$SDK/bin/monkeyc" ]; then
+        SDK="$(ls -d "$CIQ"/Sdks/*/ 2>/dev/null | sort | tail -n 1)"
+    fi
+    [ -n "$SDK" ] && export PATH="${SDK%/}/bin:$PATH" && echo "Using SDK: $SDK"
+fi
 command -v monkeyc >/dev/null || { echo "monkeyc not found: add the SDK bin folder to PATH"; exit 1; }
 [ -f "$KEY" ] || { echo "Developer key not found: $KEY"; exit 1; }
 
