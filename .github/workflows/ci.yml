@@ -32,3 +32,14 @@ jobs:
         run: python3 tools/gen_settings.py
       - name: Fail on drift
         run: git diff --exit-code resources
+
+  series:
+    name: Watchface series files are up to date
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v7
+        with:
+          python-version: "3.12"
+      - name: Check generated files and setting keys
+        run: python3 series/tools/series.py --check

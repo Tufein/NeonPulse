@@ -1,0 +1,6 @@
+<properties>
+<property id="AccentColor" type="number">3</property>
+<property id="Field1" type="number">1</property>
+<property id="ShowSeconds" type="boolean">false</property>
+<property id="TimeFormat" type="number">0</property>
+</properties>

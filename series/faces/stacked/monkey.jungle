@@ -1,0 +1,4 @@
+project.manifest = manifest.xml
+# Shared series code first, then this face's own code and resources.
+base.sourcePath = ../../common/source;source
+base.resourcePath = resources

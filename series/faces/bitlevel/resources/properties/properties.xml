@@ -1,0 +1,9 @@
+<properties>
+<property id="AccentColor" type="number">1</property>
+<property id="HeartColor" type="number">2</property>
+<property id="XpField" type="number">3</property>
+<property id="Field1" type="number">2</property>
+<property id="Field2" type="number">6</property>
+<property id="ShowSeconds" type="boolean">false</property>
+<property id="TimeFormat" type="number">0</property>
+</properties>
