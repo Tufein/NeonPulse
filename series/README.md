@@ -52,6 +52,7 @@ series/
     manifest.xml, monkey.jungle, resources/   gegenereerd door tools/series.py
   tools/series.py   één tabel met alle faces: naam, app-id, instellingen, toestellen, icoon
   tools/pixelfont.py   het 3x5 pixelfont van Bitlevel
+  tools/preview.py  tekent de faces zonder SDK (store-afbeeldingen, layout-check)
   build.sh          bouwt alle .iq-bestanden op de Mac
 ```
 

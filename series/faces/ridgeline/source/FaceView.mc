@@ -8,8 +8,8 @@ import Toybox.System;
 // sit in the front ridge (default altitude, next sunrise/sunset, temperature).
 class FaceView extends BaseFace {
     // Ridge outlines in design units relative to the center: x, y pairs, left to right.
-    private const BACK = [-240, 70, -185, 30, -140, 52, -95, -5, -55, 30, -10, -18, 40, 40, 85, 5, 135, 45, 180, 15, 240, 60];
-    private const FRONT = [-240, 120, -190, 95, -135, 112, -70, 80, -20, 102, 35, 76, 95, 106, 150, 86, 240, 118];
+    private const BACK = [-240, 105, -185, 65, -140, 87, -95, 30, -55, 65, -10, 17, 40, 75, 85, 40, 135, 80, 180, 50, 240, 95];
+    private const FRONT = [-240, 145, -190, 120, -135, 137, -70, 105, -20, 127, 35, 101, 95, 131, 150, 111, 240, 143];
     private const JUST = Graphics.TEXT_JUSTIFY_CENTER | Graphics.TEXT_JUSTIFY_VCENTER;
 
     function initialize() {
@@ -37,7 +37,7 @@ class FaceView extends BaseFace {
         var t = System.getClockTime();
         var text = Kit.hour(t.hour).toString() + ":" + Kit.two(t.min);
         dc.setColor(Graphics.COLOR_WHITE, T);
-        dc.drawText(cx, cy - sc.n(82), Kit.pick(Kit.vfont(true, 128, sc), Graphics.FONT_NUMBER_MEDIUM), text, JUST);
+        dc.drawText(cx, cy - sc.n(92), Kit.pick(Kit.vfont(true, 118, sc), Graphics.FONT_NUMBER_MEDIUM), text, JUST);
         if (awake && Kit.flag("ShowSeconds", false)) {
             dc.setColor(accent, T);
             dc.drawText(cx + sc.n(165), cy - sc.n(60), Kit.pick(Kit.vfont(true, 30, sc), Graphics.FONT_XTINY), Kit.two(t.sec), JUST);
@@ -67,9 +67,9 @@ class FaceView extends BaseFace {
             var m = Stats.get(Kit.num(keys[i] as String, defs[i] as Number));
             var x = cx + sc.n((i - 1) * 100);
             dc.setColor(Graphics.COLOR_WHITE, T);
-            dc.drawText(x, cy + sc.n(146), vf, m[1] as String, JUST);
+            dc.drawText(x, cy + sc.n(158), vf, m[1] as String, JUST);
             dc.setColor(0x9AA0AA, T);
-            dc.drawText(x, cy + sc.n(176), lf, m[2] as String, JUST);
+            dc.drawText(x, cy + sc.n(186), lf, m[2] as String, JUST);
         }
     }
 
@@ -89,14 +89,14 @@ class FaceView extends BaseFace {
             frac = since / nightLen;
         }
         var x = sc.cx + sc.n(-190 + 380 * frac);
-        var y = sc.cy + sc.n(60 - Math.sin(Math.PI * frac) * 52);
+        var y = sc.cy + sc.n(55 - Math.sin(Math.PI * frac) * 70);
         var r = sc.n(16);
 
         // Dotted path
         dc.setColor(0x3A4050, Graphics.COLOR_TRANSPARENT);
         for (var i = 0; i <= 20; i++) {
             var f = i / 20.0;
-            dc.fillCircle(sc.cx + sc.n(-190 + 380 * f), sc.cy + sc.n(60 - Math.sin(Math.PI * f) * 52), sc.n(2) < 1 ? 1 : sc.n(2));
+            dc.fillCircle(sc.cx + sc.n(-190 + 380 * f), sc.cy + sc.n(55 - Math.sin(Math.PI * f) * 70), sc.n(2) < 1 ? 1 : sc.n(2));
         }
         if (day) {
             if (_amoled) {
