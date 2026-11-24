@@ -1,0 +1,72 @@
+<settings>
+<setting propertyKey="@Properties.AccentColor" title="@Strings.AccentColor"><settingConfig type="list">
+<listEntry value="0">@Strings.Opt0</listEntry>
+<listEntry value="1">@Strings.Opt1</listEntry>
+<listEntry value="2">@Strings.Opt2</listEntry>
+<listEntry value="3">@Strings.Opt3</listEntry>
+<listEntry value="4">@Strings.Opt4</listEntry>
+<listEntry value="5">@Strings.Opt5</listEntry>
+<listEntry value="6">@Strings.Opt6</listEntry>
+<listEntry value="7">@Strings.Opt7</listEntry>
+<listEntry value="8">@Strings.Opt8</listEntry>
+<listEntry value="9">@Strings.Opt9</listEntry>
+</settingConfig></setting>
+<setting propertyKey="@Properties.Sky" title="@Strings.Sky"><settingConfig type="list">
+<listEntry value="0">@Strings.Opt10</listEntry>
+<listEntry value="1">@Strings.Opt11</listEntry>
+</settingConfig></setting>
+<setting propertyKey="@Properties.Field1" title="@Strings.Field1"><settingConfig type="list">
+<listEntry value="0">@Strings.Opt12</listEntry>
+<listEntry value="1">@Strings.Opt13</listEntry>
+<listEntry value="2">@Strings.Opt14</listEntry>
+<listEntry value="3">@Strings.Opt15</listEntry>
+<listEntry value="4">@Strings.Opt16</listEntry>
+<listEntry value="5">@Strings.Opt17</listEntry>
+<listEntry value="6">@Strings.Opt18</listEntry>
+<listEntry value="7">@Strings.Opt19</listEntry>
+<listEntry value="8">@Strings.Opt20</listEntry>
+<listEntry value="9">@Strings.Opt21</listEntry>
+<listEntry value="10">@Strings.Opt22</listEntry>
+<listEntry value="11">@Strings.Opt23</listEntry>
+<listEntry value="12">@Strings.Opt24</listEntry>
+<listEntry value="13">@Strings.Opt25</listEntry>
+</settingConfig></setting>
+<setting propertyKey="@Properties.Field2" title="@Strings.Field2"><settingConfig type="list">
+<listEntry value="0">@Strings.Opt12</listEntry>
+<listEntry value="1">@Strings.Opt13</listEntry>
+<listEntry value="2">@Strings.Opt14</listEntry>
+<listEntry value="3">@Strings.Opt15</listEntry>
+<listEntry value="4">@Strings.Opt16</listEntry>
+<listEntry value="5">@Strings.Opt17</listEntry>
+<listEntry value="6">@Strings.Opt18</listEntry>
+<listEntry value="7">@Strings.Opt19</listEntry>
+<listEntry value="8">@Strings.Opt20</listEntry>
+<listEntry value="9">@Strings.Opt21</listEntry>
+<listEntry value="10">@Strings.Opt22</listEntry>
+<listEntry value="11">@Strings.Opt23</listEntry>
+<listEntry value="12">@Strings.Opt24</listEntry>
+<listEntry value="13">@Strings.Opt25</listEntry>
+</settingConfig></setting>
+<setting propertyKey="@Properties.Field3" title="@Strings.Field3"><settingConfig type="list">
+<listEntry value="0">@Strings.Opt12</listEntry>
+<listEntry value="1">@Strings.Opt13</listEntry>
+<listEntry value="2">@Strings.Opt14</listEntry>
+<listEntry value="3">@Strings.Opt15</listEntry>
+<listEntry value="4">@Strings.Opt16</listEntry>
+<listEntry value="5">@Strings.Opt17</listEntry>
+<listEntry value="6">@Strings.Opt18</listEntry>
+<listEntry value="7">@Strings.Opt19</listEntry>
+<listEntry value="8">@Strings.Opt20</listEntry>
+<listEntry value="9">@Strings.Opt21</listEntry>
+<listEntry value="10">@Strings.Opt22</listEntry>
+<listEntry value="11">@Strings.Opt23</listEntry>
+<listEntry value="12">@Strings.Opt24</listEntry>
+<listEntry value="13">@Strings.Opt25</listEntry>
+</settingConfig></setting>
+<setting propertyKey="@Properties.ShowSeconds" title="@Strings.ShowSeconds"><settingConfig type="boolean"/></setting>
+<setting propertyKey="@Properties.TimeFormat" title="@Strings.TimeFormat"><settingConfig type="list">
+<listEntry value="0">@Strings.Opt26</listEntry>
+<listEntry value="1">@Strings.Opt27</listEntry>
+<listEntry value="2">@Strings.Opt28</listEntry>
+</settingConfig></setting>
+</settings>

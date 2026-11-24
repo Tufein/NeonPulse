@@ -1,0 +1,37 @@
+<strings>
+<string id="AppName">Meridian Chrono</string>
+<string id="AccentColor">Accent color</string>
+<string id="Opt0">White</string>
+<string id="Opt1">Mint</string>
+<string id="Opt2">Red</string>
+<string id="Opt3">Amber</string>
+<string id="Opt4">Blue</string>
+<string id="Opt5">Pink</string>
+<string id="Opt6">Purple</string>
+<string id="Opt7">Orange</string>
+<string id="Opt8">Yellow</string>
+<string id="Opt9">Grey</string>
+<string id="DialColor">Dial</string>
+<string id="Opt10">Black</string>
+<string id="Opt11">Navy</string>
+<string id="Opt12">Bronze</string>
+<string id="Opt13">Slate</string>
+<string id="Field1">Left sub-dial</string>
+<string id="Opt14">None</string>
+<string id="Opt15">Battery</string>
+<string id="Opt16">Heart rate</string>
+<string id="Opt17">Steps</string>
+<string id="Opt18">Calories</string>
+<string id="Opt19">Active minutes</string>
+<string id="Opt20">Body battery</string>
+<string id="Opt21">Floors</string>
+<string id="Opt22">Distance</string>
+<string id="Opt23">Stress</string>
+<string id="Opt24">Altitude</string>
+<string id="Opt25">Temperature</string>
+<string id="Opt26">Notifications</string>
+<string id="Opt27">Next sunrise/sunset</string>
+<string id="Field2">Right sub-dial</string>
+<string id="Field3">Bottom sub-dial</string>
+<string id="ShowSeconds">Show seconds (awake only)</string>
+</strings>
